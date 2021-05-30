@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class RestApiServiceBase {
-  private PEC_REMOTE_URL = "http://pec.ddns.net:5000/api/";
+  private PEC_REMOTE_URL = "https://d21library.azurewebsites.net/";
   private PEC_LOCAL_URL = "http://192.168.1.6:5000/api/";
   private PEC_DEV_URL = "http://localhost:5000/";
 
@@ -16,7 +16,8 @@ export class RestApiServiceBase {
 
   constructor(protected httpClient: HttpClient) {
     // if (!environment.production) {
-      this.hostUrl = this.PEC_DEV_URL;
+    //  this.hostUrl = this.PEC_DEV_URL;
+    this.hostUrl = this.PEC_REMOTE_URL;
     // } else {
     //   this.httpClient.get<ServiceResponseBase<string[]>>(
     //     this.PEC_REMOTE_URL + "values"
