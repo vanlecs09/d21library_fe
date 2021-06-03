@@ -18,6 +18,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { BookFilterComponent } from './book-management/book-filter/book-filter.component';
 import { BookDetailComponent } from './book-management/book-detail/book-detail.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { ComponentsModule } from './components/components.module';
+import { LoginComponent } from './login/login.component';
+// import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -27,7 +33,9 @@ import { BookDetailComponent } from './book-management/book-detail/book-detail.c
     BookListComponent,
     NewBookFormComponent,
     BookFilterComponent,
-    BookDetailComponent
+    BookDetailComponent,
+    LoginComponent,
+    // LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +50,7 @@ import { BookDetailComponent } from './book-management/book-detail/book-detail.c
     FormsModule,
     MatSnackBarModule,
     MatInputModule,
+    ComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

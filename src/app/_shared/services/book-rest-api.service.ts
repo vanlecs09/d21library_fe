@@ -7,6 +7,7 @@ import { RestApiServiceBase } from './rest-api-base.service';
 import { ServiceResponseBase } from './service-response-base';
 import { ServiceResponseWithoutDataBase } from './service-response-without-data-base';
 import { BookSearchForm } from '../models/book-search-form.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ import { BookSearchForm } from '../models/book-search-form.model';
 export class BookRestApiService extends RestApiServiceBase {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private authenService: AuthService
   ) { super(http) }
 
   getAllBook(): Observable<ServiceResponseBase<BookDTO[]>> {
@@ -22,36 +24,38 @@ export class BookRestApiService extends RestApiServiceBase {
     return this.http.post<ServiceResponseBase<BookDTO[]>>(url, new HttpParams().toString(), {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authenService.token)
     })
   }
 
   AddBook(bookDto: BookDTO): Observable<ServiceResponseWithoutDataBase> {
     let url = this.hostUrl + "Books/Add";
-    return this.http.post<ServiceResponseWithoutDataBase>(url, bookDto);
+    return this.http.post<ServiceResponseWithoutDataBase>(url, bookDto, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authenService.token)
+    });
   }
 
   SearchBook(bookSearchForm: BookSearchForm): Observable<ServiceResponseBase<BookDTO[]>> {
     let url = this.hostUrl + "Books/Search";
-
-    // const body = new HttpParams()
-    // .set('bookName', bookName)
-    // .set('bookISBN', bookISBN)
-    // .set('authorName', authorName)
-
     return this.http.post<ServiceResponseBase<BookDTO[]>>(url, bookSearchForm, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authenService.token)
     })
   }
 
   DeleteBook(bookISBN: string): Observable<ServiceResponseWithoutDataBase> {
     let url = this.hostUrl + "Books/Remove";
-
     const body = new HttpParams()
       .set('bookISBN', bookISBN)
 
     return this.http.delete<ServiceResponseWithoutDataBase>(url, {
-      params: body
+      params: body,
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authenService.token)
     })
   }
 
