@@ -9,6 +9,8 @@ import { catchError } from 'rxjs/operators';
 import { ServiceResponseBase } from 'app/_shared/services/service-response-base';
 import { ServiceResponseWithoutDataBase } from 'app/_shared/services/service-response-without-data-base';
 import { BookSearchForm } from 'app/_shared/models/book-search-form.model';
+import { AuthService } from 'app/_shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-management',
@@ -20,11 +22,20 @@ export class BookManagementComponent implements OnInit {
 
   constructor(
     private bookApiService: BookRestApiService,
+    private authenService: AuthService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
+    if (!this.authenService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+
+
     this.bookApiService.getAllBook()
       .pipe(
         catchError(this.handleError<ServiceResponseBase<BookDTO[]>>('getBook', new ServiceResponseBase<BookDTO[]>()))
@@ -87,17 +98,17 @@ export class BookManagementComponent implements OnInit {
 
   onDelete(bookDto: BookDTO) {
     this.bookApiService.DeleteBook(bookDto.isbn.toString())
-    .pipe(
-      catchError(this.handleError<ServiceResponseWithoutDataBase>('searchBook', new ServiceResponseWithoutDataBase()))
-    )
-    .subscribe((resp: ServiceResponseWithoutDataBase) => {
-      console.log(resp.resultCode);
-      if (resp.resultCode == 1) {
-        this.openSnackBar(resp.message, "Đóng");
-      } else {
-        this.openSnackBar(resp.message, "Đóng");
-      }
-    });
+      .pipe(
+        catchError(this.handleError<ServiceResponseWithoutDataBase>('searchBook', new ServiceResponseWithoutDataBase()))
+      )
+      .subscribe((resp: ServiceResponseWithoutDataBase) => {
+        console.log(resp.resultCode);
+        if (resp.resultCode == 1) {
+          this.openSnackBar(resp.message, "Đóng");
+        } else {
+          this.openSnackBar(resp.message, "Đóng");
+        }
+      });
   }
 
   openSnackBar(message: string, action: string) {

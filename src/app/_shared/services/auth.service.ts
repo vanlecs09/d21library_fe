@@ -32,7 +32,7 @@ export class AuthService extends RestApiServiceBase {
   }
 
   isAuthenticated() {
-    return this.isLoggedIn;
+    return this.token != "";
   }
 
   currentRole(): string {
