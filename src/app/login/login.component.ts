@@ -33,13 +33,12 @@ export class LoginComponent implements OnInit {
       this.openSnackBar("Vui lòng nhập mật khẩu", "Đóng");
       return;
     }
-
+git 
     // this.isLoading = true;
     const self = this;
     this.authService.login(this.username, this.password)
       .subscribe(
         (resp: ServiceLoginResponse) => {
-          alert("GET HERE");
         },
         (err) => {
           this.openSnackBar("Đăng nhập thất bại, mật khẩu hoặc username không đúng", "Đóng")
