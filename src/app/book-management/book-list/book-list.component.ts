@@ -13,6 +13,10 @@ export class BookListComponent implements OnInit {
 
   @Output()
   onDelete = new EventEmitter<BookDTO>();
+
+  @Output()
+  onDetail = new EventEmitter<BookDTO>();
+
   constructor() { }
 
   ngOnInit(): void {
@@ -20,5 +24,9 @@ export class BookListComponent implements OnInit {
 
   onDeleteClicked(event, bookDTO: BookDTO) {
     this.onDelete.emit(bookDTO);
+  }
+
+  onDetailClicked(event, bookDto: BookDTO) {
+    this.onDetail.emit(bookDto);
   }
 }

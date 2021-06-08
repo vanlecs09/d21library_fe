@@ -29,13 +29,6 @@ export class BookManagementComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (!this.authenService.isAuthenticated()) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-
-
     this.bookApiService.getAllBook()
       .pipe(
         catchError(this.handleError<ServiceResponseBase<BookDTO[]>>('getBook', new ServiceResponseBase<BookDTO[]>()))
@@ -82,6 +75,31 @@ export class BookManagementComponent implements OnInit {
       });
   }
 
+  openBookDetailDialog(bookDTO: BookDTO) {
+    const dialogRef = this.dialog.open(NewBookFormComponent, {
+      disableClose: true,
+      autoFocus: true,
+      data: bookDTO
+    });
+
+    dialogRef.afterClosed()
+    .subscribe(async result => {
+      // this.bookApiService.AddBook(result)
+      //   .pipe(
+      //     catchError(this.handleError<ServiceResponseWithoutDataBase>('getBook', new ServiceResponseWithoutDataBase()))
+      //   )
+      //   .subscribe((resp: ServiceResponseWithoutDataBase) => {
+      //     console.log(resp.resultCode);
+      //     if (resp.resultCode == 1) {
+      //       this.openSnackBar(resp.message, "Đóng");
+      //     } else {
+      //       this.openSnackBar(resp.message, "Đóng");
+      //     }
+      //   });
+    });
+
+  }
+
   onSearch(bookSearchForm: BookSearchForm) {
     this.bookApiService.SearchBook(bookSearchForm)
       .pipe(
@@ -109,6 +127,14 @@ export class BookManagementComponent implements OnInit {
           this.openSnackBar(resp.message, "Đóng");
         }
       });
+  }
+
+  onDetail(bookDTO: BookDTO) {
+    this.openBookDetailDialog(bookDTO);
+  }
+
+  onUpdate(bookDto: BookDTO) { 
+
   }
 
   openSnackBar(message: string, action: string) {

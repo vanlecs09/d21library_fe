@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BookManagementComponent } from './book-management/book-management.component';
+import { AuthenGuard } from './guards/authen.guard';
 import { LoginComponent } from './login/login.component';
 
 // const routes: Routes = [];
 const routes: Routes = [
-  { path: "login", component: LoginComponent },
-  { path: "", component: BookManagementComponent }
-  // {
-  //   path: '',
-  //   redirectTo: 'dashboard',
-  //   pathMatch: 'full',
-  // }, {
-  //   path: '',
-  //   component: AdminLayoutComponent,
-  //   children: [{
-  //     path: '',
-  //     loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'
-  //   }]
-  // }
+  {
+    path: "",
+    component: BookManagementComponent,
+    canActivate: [AuthenGuard]
+  },
+  {
+    path: "login",
+    component: LoginComponent,
+  }
 ];
 
 

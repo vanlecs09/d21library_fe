@@ -24,7 +24,7 @@ export class BookRestApiService extends RestApiServiceBase {
     return this.http.post<ServiceResponseBase<BookDTO[]>>(url, new HttpParams().toString(), {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', 'Bearer ' + this.authenService.token)
+        .set('Authorization', 'Bearer ' + this.authenService.getToken())
     })
   }
 
@@ -33,7 +33,7 @@ export class BookRestApiService extends RestApiServiceBase {
     return this.http.post<ServiceResponseWithoutDataBase>(url, bookDto, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', 'Bearer ' + this.authenService.token)
+        .set('Authorization', 'Bearer ' + this.authenService.getToken())
     });
   }
 
@@ -42,7 +42,7 @@ export class BookRestApiService extends RestApiServiceBase {
     return this.http.post<ServiceResponseBase<BookDTO[]>>(url, bookSearchForm, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', 'Bearer ' + this.authenService.token)
+        .set('Authorization', 'Bearer ' + this.authenService.getToken())
     })
   }
 
@@ -55,7 +55,7 @@ export class BookRestApiService extends RestApiServiceBase {
       params: body,
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
-        .set('Authorization', 'Bearer ' + this.authenService.token)
+        .set('Authorization', 'Bearer ' + this.authenService.getToken())
     })
   }
 

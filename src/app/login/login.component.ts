@@ -35,20 +35,18 @@ export class LoginComponent implements OnInit {
     }
 
     // this.isLoading = true;
-
+    const self = this;
     this.authService.login(this.username, this.password)
-      // .pipe(
-      //   catchError(this.handleError<ServiceLoginResponse>('searchBook', new ServiceLoginResponse()))
-      // )
       .subscribe(
         (resp: ServiceLoginResponse) => {
-          this.authService.token = resp.token;
-          this.authService.expiration = resp.expiration;
-          this.router.navigate(['/']);
+          alert("GET HERE");
         },
         (err) => {
           this.openSnackBar("Đăng nhập thất bại, mật khẩu hoặc username không đúng", "Đóng")
           console.error(err)
+        },
+        () => {
+          self.router.navigate(['/']);
         });
 
     // this.isLoading = false;

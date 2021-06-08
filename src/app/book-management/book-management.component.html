@@ -19,7 +19,7 @@
       <i class="material-icons">person_add</i>
       <div class="ripple-container"></div>
     </button>
-    <app-book-list [book-list]="bookDtos" (onDelete)="onDelete($event)">
+    <app-book-list [book-list]="bookDtos" (onDelete)="onDelete($event)" (onDetail)="onDetail($event)">
     </app-book-list>
   </div>
   <!-- </div>

@@ -23,6 +23,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { ComponentsModule } from './components/components.module';
 import { LoginComponent } from './login/login.component';
+import { AuthService } from './_shared/services/auth.service';
 // import { LoginComponent } from './login/login.component';
 
 
@@ -52,7 +53,7 @@ import { LoginComponent } from './login/login.component';
     MatInputModule,
     ComponentsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
