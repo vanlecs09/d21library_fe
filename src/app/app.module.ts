@@ -13,6 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
+import { MatProgressBarModule} from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
@@ -24,6 +26,10 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { ComponentsModule } from './components/components.module';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './_shared/services/auth.service';
+import { MyLoaderComponent } from './components/my-loader/my-loader.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderInterceptor } from './interceptors/loader-interceptor.service';
+import { NgxSpinnerModule } from "ngx-spinner";
 // import { LoginComponent } from './login/login.component';
 
 
@@ -36,12 +42,14 @@ import { AuthService } from './_shared/services/auth.service';
     BookFilterComponent,
     BookDetailComponent,
     LoginComponent,
-    // LoginComponent,
+    MyLoaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule, BrowserAnimationsModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatDialogModule,
     MatFormFieldModule,
     MatOptionModule,
@@ -51,9 +59,11 @@ import { AuthService } from './_shared/services/auth.service';
     FormsModule,
     MatSnackBarModule,
     MatInputModule,
-    ComponentsModule
+    ComponentsModule,
+    NgxSpinnerModule
   ],
-  providers: [AuthService],
+  providers: [AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

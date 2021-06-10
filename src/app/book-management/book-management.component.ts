@@ -11,6 +11,7 @@ import { ServiceResponseWithoutDataBase } from 'app/_shared/services/service-res
 import { BookSearchForm } from 'app/_shared/models/book-search-form.model';
 import { AuthService } from 'app/_shared/services/auth.service';
 import { Router } from '@angular/router';
+import { BookDetailComponent } from './book-detail/book-detail.component';
 
 @Component({
   selector: 'app-book-management',
@@ -76,27 +77,27 @@ export class BookManagementComponent implements OnInit {
   }
 
   openBookDetailDialog(bookDTO: BookDTO) {
-    const dialogRef = this.dialog.open(NewBookFormComponent, {
+    const dialogRef = this.dialog.open(BookDetailComponent, {
       disableClose: true,
       autoFocus: true,
       data: bookDTO
     });
 
     dialogRef.afterClosed()
-    .subscribe(async result => {
-      // this.bookApiService.AddBook(result)
-      //   .pipe(
-      //     catchError(this.handleError<ServiceResponseWithoutDataBase>('getBook', new ServiceResponseWithoutDataBase()))
-      //   )
-      //   .subscribe((resp: ServiceResponseWithoutDataBase) => {
-      //     console.log(resp.resultCode);
-      //     if (resp.resultCode == 1) {
-      //       this.openSnackBar(resp.message, "Đóng");
-      //     } else {
-      //       this.openSnackBar(resp.message, "Đóng");
-      //     }
-      //   });
-    });
+      .subscribe(async result => {
+        this.bookApiService.Update(result)
+          .subscribe(
+            (resp: ServiceResponseWithoutDataBase) => {
+              if (resp.resultCode == 1) {
+                this.openSnackBar(resp.message, "Đóng");
+              } else {
+                this.openSnackBar(resp.message, "Đóng");
+              }
+            },
+            (error) => {
+              this.openSnackBar(error.message, "Đóng");
+            });
+      });
 
   }
 
@@ -133,7 +134,7 @@ export class BookManagementComponent implements OnInit {
     this.openBookDetailDialog(bookDTO);
   }
 
-  onUpdate(bookDto: BookDTO) { 
+  onUpdate(bookDto: BookDTO) {
 
   }
 

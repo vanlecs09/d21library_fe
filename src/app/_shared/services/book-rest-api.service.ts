@@ -37,6 +37,15 @@ export class BookRestApiService extends RestApiServiceBase {
     });
   }
 
+  Update(bookDto: BookDTO): Observable<ServiceResponseWithoutDataBase> {
+    let url = this.hostUrl + "Books/Update";
+    return this.http.post<ServiceResponseWithoutDataBase>(url, bookDto, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authenService.getToken())
+    });
+  }
+
   SearchBook(bookSearchForm: BookSearchForm): Observable<ServiceResponseBase<BookDTO[]>> {
     let url = this.hostUrl + "Books/Search";
     return this.http.post<ServiceResponseBase<BookDTO[]>>(url, bookSearchForm, {

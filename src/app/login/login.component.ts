@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       this.openSnackBar("Vui lòng nhập mật khẩu", "Đóng");
       return;
     }
-git 
+
     // this.isLoading = true;
     const self = this;
     this.authService.login(this.username, this.password)
