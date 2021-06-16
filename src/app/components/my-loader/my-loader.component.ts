@@ -12,6 +12,7 @@ export class MyLoaderComponent implements OnInit {
     private loaderService: LoaderService,
     private spinner: NgxSpinnerService) {
     this.loaderService.isLoading.subscribe((loading) => {
+      console.log(loading);
       if (loading == true)
         this.spinner.show();
       else

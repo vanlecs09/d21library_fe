@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BookDTO } from 'app/_shared/dtos/book.dto';
+import { Book } from 'app/_shared/models/book.model';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { BookDTO } from 'app/_shared/dtos/book.dto';
 })
 export class BookListComponent implements OnInit {
   @Input("book-list")
-  public bookList: BookDTO[] = [];
+  public bookList: Book[] = [];
 
   @Output()
   onDelete = new EventEmitter<BookDTO>();
@@ -22,11 +23,13 @@ export class BookListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onDeleteClicked(event, bookDTO: BookDTO) {
+  onDeleteClicked(event, book: Book) {
+    let bookDTO = new BookDTO(book);
     this.onDelete.emit(bookDTO);
   }
 
-  onDetailClicked(event, bookDto: BookDTO) {
-    this.onDetail.emit(bookDto);
+  onDetailClicked(event, book: Book) {
+    let bookDTO = new BookDTO(book);
+    this.onDetail.emit(bookDTO);
   }
 }

@@ -2,6 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BookDTO } from 'app/_shared/dtos/book.dto';
+import { Book } from 'app/_shared/models/book.model';
+import { BookRestApiService } from 'app/_shared/services/book-rest-api.service';
+import { ServiceResponseBase } from 'app/_shared/services/service-response-base';
 
 @Component({
   selector: 'app-new-book-form',
@@ -11,7 +14,7 @@ import { BookDTO } from 'app/_shared/dtos/book.dto';
 export class NewBookFormComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<NewBookFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: BookDTO, private snackBar: MatSnackBar) { }
+    @Inject(MAT_DIALOG_DATA) public data: Book, private snackBar: MatSnackBar, private bookApiService: BookRestApiService) { }
 
   ngOnInit(): void {
   }
@@ -35,12 +38,21 @@ export class NewBookFormComponent implements OnInit {
       this.openSnackBar("Vui lòng nhập tên tác giả", "Đóng");
       return;
     }
-
-    this.dialogRef.close(this.data);
-
     console.log(this.data);
+    let bookDTO = new BookDTO(this.data);
+    this.dialogRef.close(bookDTO);
   }
-  
+
+  autoFill() {
+    const self = this;
+    this.bookApiService.FetchBook(this.data.isbn).subscribe((resp: ServiceResponseBase<BookDTO>) => {
+      if (resp.resultCode != 1) return;
+      self.data = new Book(resp.data);
+    }, (error) => {
+      self.openSnackBar(error,"Dong");
+    });
+  }
+
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
@@ -49,20 +61,8 @@ export class NewBookFormComponent implements OnInit {
   }
 
   onBookUpdated() {
-    if(!this.data.authorAffliation) {
-      this.data.authorAffliation = "";
-    }
-
-    if(!this.data.authorEmail) {
-      this.data.authorEmail = "";
-    }
-
-    if(!this.data.bookId) {
+    if (!this.data.bookId) {
       this.data.bookId = "";
-    }
-
-    if(!this.data.authorId) {
-      this.data.authorId = "";
     }
   }
 }

@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BookDTO } from 'app/_shared/dtos/book.dto';
+import { Book } from 'app/_shared/models/book.model';
 
 @Component({
   selector: 'app-book-detail',
@@ -11,7 +12,7 @@ import { BookDTO } from 'app/_shared/dtos/book.dto';
 export class BookDetailComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<BookDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: BookDTO, private snackBar: MatSnackBar) { }
+    @Inject(MAT_DIALOG_DATA) public data: Book, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -31,12 +32,12 @@ export class BookDetailComponent implements OnInit {
       return;
     }
 
-    if (!this.data || !this.data.authorName) {
-      this.openSnackBar("Vui lòng nhập tên tác giả", "Đóng");
-      return;
-    }
-
-    this.dialogRef.close(this.data);
+    // if (!this.data || !this.data.authorName) {
+    //   this.openSnackBar("Vui lòng nhập tên tác giả", "Đóng");
+    //   return;
+    // }
+    let bookDTO = new BookDTO(this.data);
+    this.dialogRef.close(bookDTO);
 
     console.log(this.data);
   }
@@ -49,21 +50,21 @@ export class BookDetailComponent implements OnInit {
   }
 
   onBookUpdated() {
-    if(!this.data.authorAffliation) {
-      this.data.authorAffliation = "";
-    }
+    // if(!this.data.authorAffliation) {
+      // this.data.authorAffliation = "";
+    // }
 
-    if(!this.data.authorEmail) {
-      this.data.authorEmail = "";
-    }
+    // if(!this.data.authorEmail) {
+      // this.data.authorEmail = "";
+    // }
 
     if(!this.data.bookId) {
       this.data.bookId = "";
     }
 
-    if(!this.data.authorId) {
-      this.data.authorId = "";
-    }
+    // if(!this.data.authorId) {
+    //   this.data.authorId = "";
+    // }
   }
 
 }

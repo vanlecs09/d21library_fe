@@ -5,7 +5,9 @@ import { AuthService } from 'app/_shared/services/auth.service';
 import { ServiceLoginResponse } from 'app/_shared/services/service-login-response';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
+// declare var require: any;
+// import * as Goodreads from 'goodreads-api-node/dist/';
+// const Goodreads = require('goodreads-api-node');
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,6 +23,13 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.testGoodRead();
+  }
+
+
+  async testGoodRead() {
+    // const res = await Goodreads.searchBooks({ q: 'A song of ice and fire', page: 2, field: 'isbn' });
+    // console.log(res);
   }
 
   async onLoginClicked() {

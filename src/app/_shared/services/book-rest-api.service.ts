@@ -8,6 +8,7 @@ import { ServiceResponseBase } from './service-response-base';
 import { ServiceResponseWithoutDataBase } from './service-response-without-data-base';
 import { BookSearchForm } from '../models/book-search-form.model';
 import { AuthService } from './auth.service';
+import { BookFetch } from '../models/book-fetch.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,16 +20,16 @@ export class BookRestApiService extends RestApiServiceBase {
     private authenService: AuthService
   ) { super(http) }
 
-  getAllBook(): Observable<ServiceResponseBase<BookDTO[]>> {
+  public getAllBook(bookFetch: BookFetch): Observable<ServiceResponseBase<BookDTO[]>> {
     let url = this.hostUrl + "Books/GetAll";
-    return this.http.post<ServiceResponseBase<BookDTO[]>>(url, new HttpParams().toString(), {
+    return this.http.post<ServiceResponseBase<BookDTO[]>>(url, bookFetch, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer ' + this.authenService.getToken())
     })
   }
 
-  AddBook(bookDto: BookDTO): Observable<ServiceResponseWithoutDataBase> {
+  public AddBook(bookDto: BookDTO): Observable<ServiceResponseWithoutDataBase> {
     let url = this.hostUrl + "Books/Add";
     return this.http.post<ServiceResponseWithoutDataBase>(url, bookDto, {
       headers: new HttpHeaders()
@@ -37,7 +38,7 @@ export class BookRestApiService extends RestApiServiceBase {
     });
   }
 
-  Update(bookDto: BookDTO): Observable<ServiceResponseWithoutDataBase> {
+  public Update(bookDto: BookDTO): Observable<ServiceResponseWithoutDataBase> {
     let url = this.hostUrl + "Books/Update";
     return this.http.post<ServiceResponseWithoutDataBase>(url, bookDto, {
       headers: new HttpHeaders()
@@ -46,7 +47,7 @@ export class BookRestApiService extends RestApiServiceBase {
     });
   }
 
-  SearchBook(bookSearchForm: BookSearchForm): Observable<ServiceResponseBase<BookDTO[]>> {
+  public SearchBook(bookSearchForm: BookSearchForm): Observable<ServiceResponseBase<BookDTO[]>> {
     let url = this.hostUrl + "Books/Search";
     return this.http.post<ServiceResponseBase<BookDTO[]>>(url, bookSearchForm, {
       headers: new HttpHeaders()
@@ -55,13 +56,28 @@ export class BookRestApiService extends RestApiServiceBase {
     })
   }
 
-  DeleteBook(bookISBN: string): Observable<ServiceResponseWithoutDataBase> {
+  public DeleteBook(bookISBN: string): Observable<ServiceResponseWithoutDataBase> {
     let url = this.hostUrl + "Books/Remove";
     const body = new HttpParams()
       .set('bookISBN', bookISBN)
 
     return this.http.delete<ServiceResponseWithoutDataBase>(url, {
       params: body,
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authenService.getToken())
+    })
+  }
+
+  public FetchBook(bookISBN: string): Observable<ServiceResponseBase<BookDTO>> {
+    let url = this.hostUrl + "Books/Fetch";
+    // const body = new HttpParams()
+    //   .set('isbn', bookISBN)
+    var isbnObject = {
+      "isbn": bookISBN
+    }
+
+    return this.http.post<ServiceResponseBase<BookDTO>>(url, isbnObject, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer ' + this.authenService.getToken())

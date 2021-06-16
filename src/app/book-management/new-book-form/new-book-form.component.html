@@ -34,7 +34,9 @@
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button  mat-raised-button class="btn btn-secondary pull-right" (click)="cancel()">Hủy</button>
+    <button mat-button mat-raised-button class="btn btn-secondary pull-right" (click)="cancel()">Hủy</button>
+    <button mat-button mat-raised-button class="btn btn-primary pull-right" cdkFocusInitial
+        (click)="autoFill()">AutoFill</button>
     <button mat-button mat-raised-button class="btn btn-primary pull-right" cdkFocusInitial
         (click)="submit()">Thêm</button>
 </mat-dialog-actions>

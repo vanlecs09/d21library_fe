@@ -12,6 +12,8 @@ import { BookSearchForm } from 'app/_shared/models/book-search-form.model';
 import { AuthService } from 'app/_shared/services/auth.service';
 import { Router } from '@angular/router';
 import { BookDetailComponent } from './book-detail/book-detail.component';
+import { Book } from 'app/_shared/models/book.model';
+import { BookFetch } from 'app/_shared/models/book-fetch.model';
 
 @Component({
   selector: 'app-book-management',
@@ -19,7 +21,7 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
   styleUrls: ['./book-management.component.styl']
 })
 export class BookManagementComponent implements OnInit {
-  bookDtos: BookDTO[] = [];
+  bookDtos: Book[] = [];
 
   constructor(
     private bookApiService: BookRestApiService,
@@ -30,15 +32,15 @@ export class BookManagementComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.bookApiService.getAllBook()
+    this.bookApiService.getAllBook(new BookFetch())
       .pipe(
         catchError(this.handleError<ServiceResponseBase<BookDTO[]>>('getBook', new ServiceResponseBase<BookDTO[]>()))
       )
       .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
         if (resp.resultCode == 1) {
-          this.bookDtos = resp.data;
+          this.bookDtos = resp.data.map(bookDto => new Book(bookDto));
         } else {
-
+          this.openSnackBar(resp.message, "Đóng");
         }
       });
   }
@@ -80,7 +82,7 @@ export class BookManagementComponent implements OnInit {
     const dialogRef = this.dialog.open(BookDetailComponent, {
       disableClose: true,
       autoFocus: true,
-      data: bookDTO
+      data: new Book(bookDTO)
     });
 
     dialogRef.afterClosed()
@@ -108,7 +110,7 @@ export class BookManagementComponent implements OnInit {
       )
       .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
         if (resp.resultCode == 1) {
-          this.bookDtos = resp.data;
+          this.bookDtos = resp.data.map(bookDto => new Book(bookDto));
         } else {
           this.openSnackBar(resp.message, "Đóng");
         }
