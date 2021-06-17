@@ -6,12 +6,12 @@ export class BookDTO {
     public isbn: string = "";
     public title: string = "";
     public genre: string = "";
-    public bookshelf: string = "";
+    public shelf: string = "";
     public authors: AuthorDTO[] = [];
 
     constructor(book: Book) {
         this.bookId = book.bookId;
-        this.bookshelf = book.bookshelf;
+        this.shelf = book.shelf;
         this.genre = book.genre;
         this.isbn = book.isbn;
         this.title = book.title;

@@ -17,6 +17,9 @@
                     <th style="width: 10%; text-align:center">
                         Thể loại
                     </th>
+                    <th style="width: 10%; text-align:center">
+                        Tên kệ
+                    </th>
                 </thead>
                 <tbody>
                     <tr *ngFor="let book of bookList">
@@ -31,6 +34,9 @@
                         </td>
                         <td style="text-align:center">
                             {{book.genre}}
+                        </td>
+                        <td style="text-align:center">
+                            {{book.shelf}}
                         </td>
                         <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon"
                             (click)="onDeleteClicked($event, book)" matTooltip="Thêm thông tin học viên">

@@ -5,7 +5,7 @@ export class Book {
     public isbn: string = "";
     public title: string = "";
     public genre: string = "";
-    public bookshelf: string = "";
+    public shelf: string = "";
     public authorName: string = "";
 
     constructor(bookDto: BookDTO) {
@@ -13,7 +13,7 @@ export class Book {
         this.isbn = bookDto.isbn;
         this.title = bookDto.title;
         this.genre = bookDto.genre;
-        this.bookshelf = bookDto.bookshelf;
+        this.shelf = bookDto.shelf;
         bookDto.authors.forEach(author => this.authorName += author.name + " & ");
         this.authorName = this.authorName.slice(0, -3);
     }
