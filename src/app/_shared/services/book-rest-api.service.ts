@@ -8,7 +8,8 @@ import { ServiceResponseBase } from './service-response-base';
 import { ServiceResponseWithoutDataBase } from './service-response-without-data-base';
 import { BookSearchForm } from '../models/book-search-form.model';
 import { AuthService } from './auth.service';
-import { BookFetch } from '../models/book-fetch.model';
+import { BookFetchDto } from '../dtos/bookFetch.dto';
+// import { BookFetch } from '../models/book-fetch';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class BookRestApiService extends RestApiServiceBase {
     private authenService: AuthService
   ) { super(http) }
 
-  public getAllBook(bookFetch: BookFetch): Observable<ServiceResponseBase<BookDTO[]>> {
+  public getAllBook(bookFetch: BookFetchDto): Observable<ServiceResponseBase<BookDTO[]>> {
     let url = this.hostUrl + "Books/GetAll";
     return this.http.post<ServiceResponseBase<BookDTO[]>>(url, bookFetch, {
       headers: new HttpHeaders()

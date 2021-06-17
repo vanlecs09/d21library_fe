@@ -13,7 +13,10 @@ import { AuthService } from 'app/_shared/services/auth.service';
 import { Router } from '@angular/router';
 import { BookDetailComponent } from './book-detail/book-detail.component';
 import { Book } from 'app/_shared/models/book.model';
-import { BookFetch } from 'app/_shared/models/book-fetch.model';
+import { BookPaginator } from 'app/_shared/models/book-paginator.model';
+// import { BookFetch } from 'app/_shared/models/book-fetch.model';
+import { BookFetchDto } from 'app/_shared/dtos/bookFetch.dto';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-book-management',
@@ -22,7 +25,7 @@ import { BookFetch } from 'app/_shared/models/book-fetch.model';
 })
 export class BookManagementComponent implements OnInit {
   bookDtos: Book[] = [];
-
+  bookPanigator: BookPaginator = new BookPaginator();
   constructor(
     private bookApiService: BookRestApiService,
     private authenService: AuthService,
@@ -32,17 +35,7 @@ export class BookManagementComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.bookApiService.getAllBook(new BookFetch())
-      .pipe(
-        catchError(this.handleError<ServiceResponseBase<BookDTO[]>>('getBook', new ServiceResponseBase<BookDTO[]>()))
-      )
-      .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
-        if (resp.resultCode == 1) {
-          this.bookDtos = resp.data.map(bookDto => new Book(bookDto));
-        } else {
-          this.openSnackBar(resp.message, "Đóng");
-        }
-      });
+    this.fetchBooks();
   }
 
   async onBookSelected(book: BookDTO) {
@@ -144,6 +137,27 @@ export class BookManagementComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 10000,
     });
+  }
+
+  onPageEvent(event: PageEvent) {
+    this.bookPanigator.length = event.length;
+    this.bookPanigator.pageSize = event.pageSize;
+    this.bookPanigator.pageIndex = event.pageIndex;
+    this.fetchBooks();
+  }
+
+  private fetchBooks() {
+    let bookFetch = new BookFetchDto();
+    bookFetch.itemPerPage = this.bookPanigator.pageSize;
+    bookFetch.pageNumber = this.bookPanigator.pageIndex + 1;
+    this.bookApiService.getAllBook(bookFetch)
+      .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
+        if (resp.resultCode == 1) {
+          this.bookDtos = resp.data.map(bookDto => new Book(bookDto));
+        } else {
+          this.openSnackBar(resp.message, "Đóng");
+        }
+      });
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

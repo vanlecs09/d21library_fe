@@ -13,8 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
-import { MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
-import { MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
@@ -30,6 +30,7 @@ import { MyLoaderComponent } from './components/my-loader/my-loader.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptor } from './interceptors/loader-interceptor.service';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { MatPaginatorModule } from '@angular/material/paginator';
 // import { LoginComponent } from './login/login.component';
 
 
@@ -60,7 +61,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MatSnackBarModule,
     MatInputModule,
     ComponentsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatPaginatorModule
   ],
   providers: [AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
