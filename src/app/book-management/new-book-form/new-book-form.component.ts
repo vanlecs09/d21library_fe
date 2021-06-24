@@ -16,9 +16,12 @@ import { ServiceResponseBase } from 'app/_shared/services/service-response-base'
 export class NewBookFormComponent implements OnInit {
     bookGenres: BookGenre[] = [];
     constructor(public dialogRef: MatDialogRef<NewBookFormComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: Book, private snackBar: MatSnackBar, private bookApiService: BookRestApiService) {
-            this.bookGenres = this.bookApiService.bookGenres.map(g => new BookGenre(g.name, false));
-         }
+        @Inject(MAT_DIALOG_DATA) public data: Book,
+        private snackBar: MatSnackBar,
+        private bookApiService: BookRestApiService
+    ) {
+        this.bookGenres = this.bookApiService.bookGenres.map(g => new BookGenre(g.name, false));
+    }
 
     ngOnInit(): void {
     }
@@ -51,6 +54,8 @@ export class NewBookFormComponent implements OnInit {
             return;
         }
 
+        this.data.isbn = this.data.isbn.split("-").join('');
+
         let bookDTO = new BookDTO(this.data);
         this.dialogRef.close(bookDTO);
     }
@@ -76,5 +81,7 @@ export class NewBookFormComponent implements OnInit {
         if (!this.data.bookId) {
             this.data.bookId = "";
         }
+
+        this.data.isbn = this.data.isbn.split("-").join('');
     }
 }

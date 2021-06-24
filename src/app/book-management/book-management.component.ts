@@ -56,15 +56,12 @@ export class BookManagementComponent implements OnInit {
         dialogRef.afterClosed()
             .subscribe(async result => {
                 if (!result) return;
-                self.fetchBooks();
-                self.bookApiService.GetAllBookGenres().subscribe();
                 self.bookApiService.AddBook(result)
-                    .pipe(
-                        catchError(this.handleError<ServiceResponseWithoutDataBase>('getBook', new ServiceResponseWithoutDataBase()))
-                    )
                     .subscribe((resp: ServiceResponseWithoutDataBase) => {
                         console.log(resp.resultCode);
                         if (resp.resultCode == 1) {
+                            self.fetchBooks();
+                            self.bookApiService.GetAllBookGenres().subscribe();
                             self.openSnackBar(resp.message, "Đóng");
                         } else {
                             self.openSnackBar(resp.message, "Đóng");
@@ -83,12 +80,12 @@ export class BookManagementComponent implements OnInit {
         dialogRef.afterClosed()
             .subscribe(async result => {
                 if (!result) return;
-                self.fetchBooks();
-                self.bookApiService.GetAllBookGenres().subscribe();
                 self.bookApiService.Update(result)
                     .subscribe(
                         (resp: ServiceResponseWithoutDataBase) => {
                             if (resp.resultCode == 1) {
+                                self.fetchBooks();
+                                self.bookApiService.GetAllBookGenres().subscribe();
                                 self.openSnackBar(resp.message, "Đóng");
                             } else {
                                 self.openSnackBar(resp.message, "Đóng");
@@ -103,9 +100,6 @@ export class BookManagementComponent implements OnInit {
 
     onSearch(bookSearchForm: BookSearchForm) {
         this.bookApiService.SearchBook(bookSearchForm)
-            .pipe(
-                catchError(this.handleError<ServiceResponseBase<BookDTO[]>>('searchBook', new ServiceResponseBase<BookDTO[]>()))
-            )
             .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
                 if (resp.resultCode == 1) {
                     this.bookDtos = resp.data.map(bookDto => new Book(bookDto));
@@ -116,13 +110,12 @@ export class BookManagementComponent implements OnInit {
     }
 
     onDelete(bookDto: BookDTO) {
+        const self = this;
         this.bookApiService.DeleteBook(bookDto.isbn.toString())
-            .pipe(
-                catchError(this.handleError<ServiceResponseWithoutDataBase>('searchBook', new ServiceResponseWithoutDataBase()))
-            )
             .subscribe((resp: ServiceResponseWithoutDataBase) => {
                 console.log(resp.resultCode);
                 if (resp.resultCode == 1) {
+                    self.bookApiService.GetAllBookGenres().subscribe();
                     this.openSnackBar(resp.message, "Đóng");
                 } else {
                     this.openSnackBar(resp.message, "Đóng");
@@ -149,6 +142,7 @@ export class BookManagementComponent implements OnInit {
     }
 
     private fetchBooks() {
+        console.log("fetch boook");
         let bookFetch = new BookFetchDto();
         bookFetch.itemPerPage = this.bookPanigator.pageSize;
         bookFetch.pageNumber = this.bookPanigator.pageIndex + 1;
@@ -156,23 +150,10 @@ export class BookManagementComponent implements OnInit {
             .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
                 if (resp.resultCode == 1) {
                     this.bookDtos = resp.data.map(bookDto => new Book(bookDto));
+                    console.log(this.bookDtos);
                 } else {
                     this.openSnackBar(resp.message, "Đóng");
                 }
             });
-    }
-
-    private handleError<T>(operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
-            this.openSnackBar(error.message, "Đóng");
-            // TODO: send the error to remote logging infrastructure
-            console.error(error); // log to console instead
-
-            // TODO: better job of transforming error for user consumption
-            // this.log(`${operation} failed: ${error.message}`);
-
-            // Let the app keep running by returning an empty result.
-            return of(result as T);
-        };
     }
 }

@@ -19,10 +19,11 @@
                     </mat-form-field>
                 </div>
                 <div class="col-md-4">
-                    <mat-form-field class="example-full-width">
+                    <app-chip-input [book-genres]="bookGenres" (onSelectGenre)="onSelectGenre($event)"></app-chip-input>
+                    <!-- <mat-form-field class="example-full-width">
                         <input matInput placeholder="Thể loại" [(ngModel)]="bookSearchForm.bookGenre"
                             [ngModelOptions]="{standalone: true}">
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </div>
                 <div class="col-md-3">
                     <mat-form-field class="example-full-width">
