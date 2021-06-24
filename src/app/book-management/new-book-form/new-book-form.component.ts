@@ -1,68 +1,80 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+// import { BookGenre } from 'app/components/chip-input/chip-input.component';
 import { BookDTO } from 'app/_shared/dtos/book.dto';
+import { BookGenre } from 'app/_shared/models/book-genre';
 import { Book } from 'app/_shared/models/book.model';
 import { BookRestApiService } from 'app/_shared/services/book-rest-api.service';
 import { ServiceResponseBase } from 'app/_shared/services/service-response-base';
 
 @Component({
-  selector: 'app-new-book-form',
-  templateUrl: './new-book-form.component.html',
-  styleUrls: ['./new-book-form.component.styl']
+    selector: 'app-new-book-form',
+    templateUrl: './new-book-form.component.html',
+    styleUrls: ['./new-book-form.component.styl']
 })
 export class NewBookFormComponent implements OnInit {
+    bookGenres: BookGenre[] = [];
+    constructor(public dialogRef: MatDialogRef<NewBookFormComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: Book, private snackBar: MatSnackBar, private bookApiService: BookRestApiService) {
+            this.bookGenres = this.bookApiService.bookGenres.map(g => new BookGenre(g.name, false));
+         }
 
-  constructor(public dialogRef: MatDialogRef<NewBookFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Book, private snackBar: MatSnackBar, private bookApiService: BookRestApiService) { }
-
-  ngOnInit(): void {
-  }
-
-  cancel() {
-    this.dialogRef.close();
-  }
-
-  submit() {
-    if (!this.data || !this.data.title) {
-      this.openSnackBar("Vui lòng nhập tên sách", "Đóng");
-      return;
+    ngOnInit(): void {
     }
 
-    if (!this.data || !this.data.isbn) {
-      this.openSnackBar("Vui lòng không để trống mã isbn", "Đóng");
-      return;
+    cancel() {
+        this.dialogRef.close();
     }
 
-    if (!this.data || !this.data.authorName) {
-      this.openSnackBar("Vui lòng nhập tên tác giả", "Đóng");
-      return;
+    onSelectGenre(bookGenres: BookGenre[]) {
+        const self = this;
+        self.data.genre = "";
+        bookGenres.forEach(genre => self.data.genre += genre.name + " & ");
+        self.data.genre = self.data.genre.slice(0, -3);
+        console.log(self.data.genre);
     }
-    console.log(this.data);
-    let bookDTO = new BookDTO(this.data);
-    this.dialogRef.close(bookDTO);
-  }
 
-  autoFill() {
-    const self = this;
-    this.bookApiService.FetchBook(this.data.isbn).subscribe((resp: ServiceResponseBase<BookDTO>) => {
-      if (resp.resultCode != 1) return;
-      self.data = new Book(resp.data);
-    }, (error) => {
-      self.openSnackBar(error,"Dong");
-    });
-  }
+    submit() {
+        if (!this.data || !this.data.title) {
+            this.openSnackBar("Vui lòng nhập tên sách", "Đóng");
+            return;
+        }
 
+        if (!this.data || !this.data.isbn) {
+            this.openSnackBar("Vui lòng không để trống mã isbn", "Đóng");
+            return;
+        }
 
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 10000,
-    });
-  }
+        if (!this.data || !this.data.authorName) {
+            this.openSnackBar("Vui lòng nhập tên tác giả", "Đóng");
+            return;
+        }
 
-  onBookUpdated() {
-    if (!this.data.bookId) {
-      this.data.bookId = "";
+        let bookDTO = new BookDTO(this.data);
+        this.dialogRef.close(bookDTO);
     }
-  }
+
+    autoFill() {
+        const self = this;
+        this.bookApiService.FetchBook(this.data.isbn).subscribe((resp: ServiceResponseBase<BookDTO>) => {
+            if (resp.resultCode != 1) return;
+            self.data = new Book(resp.data);
+        }, (error) => {
+            self.openSnackBar(error, "Dong");
+        });
+    }
+
+
+    openSnackBar(message: string, action: string) {
+        this.snackBar.open(message, action, {
+            duration: 10000,
+        });
+    }
+
+    onBookUpdated() {
+        if (!this.data.bookId) {
+            this.data.bookId = "";
+        }
+    }
 }

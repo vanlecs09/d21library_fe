@@ -12,7 +12,8 @@ export class Book {
         this.bookId = bookDto.bookId;
         this.isbn = bookDto.isbn;
         this.title = bookDto.title;
-        this.genre = bookDto.genre;
+        bookDto.genres.forEach(genre => this.genre += genre.name + " & ");
+        this.genre = this.genre.slice(0, -3);
         this.shelf = bookDto.shelf;
         bookDto.authors.forEach(author => this.authorName += author.name + " & ");
         this.authorName = this.authorName.slice(0, -3);

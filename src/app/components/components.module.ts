@@ -6,6 +6,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MyLoaderComponent } from './my-loader/my-loader.component';
+import { ChipInputComponent } from './chip-input/chip-input.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { MyLoaderComponent } from './my-loader/my-loader.component';
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
+    // ChipInputComponent,
     // MyLoaderComponent
   ],
   exports: [

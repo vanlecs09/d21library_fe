@@ -31,6 +31,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptor } from './interceptors/loader-interceptor.service';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ChipInputComponent } from './components/chip-input/chip-input.component';
+import { MatChipsModule } from '@angular/material/chips';
 // import { LoginComponent } from './login/login.component';
 
 
@@ -43,7 +45,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     BookFilterComponent,
     BookDetailComponent,
     LoginComponent,
-    MyLoaderComponent
+    MyLoaderComponent,
+    ChipInputComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +65,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatInputModule,
     ComponentsModule,
     NgxSpinnerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatChipsModule
   ],
   providers: [AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
