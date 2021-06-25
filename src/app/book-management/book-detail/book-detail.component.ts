@@ -6,7 +6,6 @@ import { BookDTO } from 'app/_shared/dtos/book.dto';
 import { BookGenre } from 'app/_shared/models/book-genre';
 import { Book } from 'app/_shared/models/book.model';
 import { BookRestApiService } from 'app/_shared/services/book-rest-api.service';
-import console = require('console');
 
 @Component({
     selector: 'app-book-detail',

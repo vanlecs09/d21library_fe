@@ -3,7 +3,6 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { BookGenre } from 'app/_shared/models/book-genre';
 import { BookSearchForm } from 'app/_shared/models/book-search-form.model';
 import { BookRestApiService } from 'app/_shared/services/book-rest-api.service';
-// import console = require('console');
 
 @Component({
     selector: 'app-book-filter',
