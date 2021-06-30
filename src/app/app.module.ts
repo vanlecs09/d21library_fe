@@ -33,6 +33,10 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ChipInputComponent } from './components/chip-input/chip-input.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { MemberManagementComponent } from './member-management/member-management/member-management.component';
+import { MemberListComponent } from './member-management/member-list/member-list/member-list.component';
+import { MemberFilterFormComponent } from './member-management/member-filter-form/member-filter-form.component';
+import { MemberNewFormComponent } from './member-management/member-new-form/member-new-form/member-new-form.component';
 // import { LoginComponent } from './login/login.component';
 
 
@@ -46,7 +50,11 @@ import { MatChipsModule } from '@angular/material/chips';
     BookDetailComponent,
     LoginComponent,
     MyLoaderComponent,
-    ChipInputComponent
+    ChipInputComponent,
+    MemberManagementComponent,
+    MemberListComponent,
+    MemberFilterFormComponent,
+    MemberNewFormComponent
   ],
   imports: [
     BrowserModule,
