@@ -48,4 +48,13 @@ export class MemberRestApiService extends RestApiServiceBase {
         });
     }
 
+    public Update(memberDto: MemberDTO): Observable<ServiceResponseWithoutDataBase> {
+        let url = this.hostUrl + "Members/Update";
+        return this.http.post<ServiceResponseWithoutDataBase>(url, memberDto, {
+            headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .set('Authorization', 'Bearer ' + this.authenService.getToken())
+        });
+    }
+
 }

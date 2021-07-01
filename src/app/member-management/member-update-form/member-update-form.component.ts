@@ -2,21 +2,19 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MemberDTO } from 'app/_shared/dtos/member.dto';
-import { BookGenre } from 'app/_shared/models/book-genre';
 import { MemberRestApiService } from 'app/_shared/services/member-rest-api-service';
 
 @Component({
-  selector: 'app-member-new-form',
-  templateUrl: './member-new-form.component.html',
-  styleUrls: ['./member-new-form.component.css']
+    selector: 'app-member-update-form',
+    templateUrl: './member-update-form.component.html',
+    styleUrls: ['./member-update-form.component.css']
 })
-export class MemberNewFormComponent implements OnInit {
+export class MemberUpdateFormComponent implements OnInit {
 
-    constructor(public dialogRef: MatDialogRef<MemberNewFormComponent>,
+    constructor(public dialogRef: MatDialogRef<MemberUpdateFormComponent>,
         @Inject(MAT_DIALOG_DATA) public data: MemberDTO,
-        private snackBar: MatSnackBar,
-        private bookApiService: MemberRestApiService
-    ) {}
+        private snackBar: MatSnackBar
+    ) { }
 
     ngOnInit(): void {
     }
@@ -27,7 +25,6 @@ export class MemberNewFormComponent implements OnInit {
 
 
     submit() {
-        console.log(this.data);
         if (!this.data || !this.data.name) {
             this.openSnackBar("Vui lòng nhập tên member", "Đóng");
             return;
@@ -42,10 +39,7 @@ export class MemberNewFormComponent implements OnInit {
             this.openSnackBar("Vui lòng nhập email", "Đóng");
             return;
         }
-     
-        // this.data.isbn = this.data.isbn.split("-").join('');
 
-        // let bookDTO = new BookDTO(this.data);
         this.dialogRef.close(this.data);
     }
 
@@ -57,7 +51,7 @@ export class MemberNewFormComponent implements OnInit {
     }
 
     onMemberUpdate() {
-      
+        console.log(this.data);
     }
 
 }

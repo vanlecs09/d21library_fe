@@ -6,6 +6,7 @@ import { MemberRestApiService } from 'app/_shared/services/member-rest-api-servi
 import { ServiceResponseBase } from 'app/_shared/services/service-response-base';
 import { ServiceResponseWithoutDataBase } from 'app/_shared/services/service-response-without-data-base';
 import { MemberNewFormComponent } from '../member-new-form/member-new-form/member-new-form.component';
+import { MemberUpdateFormComponent } from '../member-update-form/member-update-form.component';
 
 @Component({
     selector: 'app-member-management',
@@ -54,7 +55,6 @@ export class MemberManagementComponent implements OnInit {
                 if (!memeberDto) return;
                 self.memberRestApiService.Add(memeberDto)
                     .subscribe((resp: ServiceResponseWithoutDataBase) => {
-                        console.log(resp.resultCode);
                         if (resp.resultCode == 1) {
                             self.fetchMember();
                             self.openSnackBar(resp.message, "Đóng");
@@ -65,13 +65,11 @@ export class MemberManagementComponent implements OnInit {
             });
     }
 
-    
-    onDelete(bookDto: MemberDTO) {
-        console.log(bookDto);
+
+    onDelete(memberDto: MemberDTO) {
         const self = this;
-        this.memberRestApiService.Delete(bookDto)
+        this.memberRestApiService.Delete(memberDto)
             .subscribe((resp: ServiceResponseWithoutDataBase) => {
-                console.log(resp.resultCode);
                 if (resp.resultCode == 1) {
                     self.fetchMember();
                     this.openSnackBar(resp.message, "Đóng");
@@ -79,6 +77,31 @@ export class MemberManagementComponent implements OnInit {
                     this.openSnackBar(resp.message, "Đóng");
                 }
             });
+    }
+
+    onDetail(memberDto: MemberDTO) {
+        const self = this;
+        const dialogRef = this.dialog.open(MemberUpdateFormComponent, {
+            disableClose: true,
+            autoFocus: true,
+            data: {...memberDto}
+        });
+
+        dialogRef.afterClosed()
+            .subscribe(async result => {
+                console.log(result);
+                if (!result) return;
+                self.memberRestApiService.Update(result)
+                    .subscribe((resp: ServiceResponseWithoutDataBase) => {
+                        if (resp.resultCode == 1) {
+                            this.openSnackBar(resp.message, "Đóng");
+                        } else {
+                            this.openSnackBar(resp.message, "Đóng");
+                        }
+                        self.fetchMember();
+                    });
+            });
+
     }
 
     openSnackBar(message: string, action: string) {

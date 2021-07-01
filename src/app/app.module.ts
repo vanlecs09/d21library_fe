@@ -37,6 +37,7 @@ import { MemberManagementComponent } from './member-management/member-management
 import { MemberListComponent } from './member-management/member-list/member-list/member-list.component';
 import { MemberFilterFormComponent } from './member-management/member-filter-form/member-filter-form.component';
 import { MemberNewFormComponent } from './member-management/member-new-form/member-new-form/member-new-form.component';
+import { MemberUpdateFormComponent } from './member-management/member-update-form/member-update-form.component';
 // import { LoginComponent } from './login/login.component';
 
 
@@ -54,7 +55,8 @@ import { MemberNewFormComponent } from './member-management/member-new-form/memb
     MemberManagementComponent,
     MemberListComponent,
     MemberFilterFormComponent,
-    MemberNewFormComponent
+    MemberNewFormComponent,
+    MemberUpdateFormComponent
   ],
   imports: [
     BrowserModule,

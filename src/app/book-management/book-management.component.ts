@@ -58,7 +58,6 @@ export class BookManagementComponent implements OnInit {
                 if (!result) return;
                 self.bookApiService.AddBook(result)
                     .subscribe((resp: ServiceResponseWithoutDataBase) => {
-                        console.log(resp.resultCode);
                         if (resp.resultCode == 1) {
                             self.fetchBooks();
                             self.bookApiService.GetAllBookGenres().subscribe();
@@ -150,7 +149,6 @@ export class BookManagementComponent implements OnInit {
             .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
                 if (resp.resultCode == 1) {
                     this.bookDtos = resp.data.map(bookDto => new Book(bookDto));
-                    console.log(this.bookDtos);
                 } else {
                     this.openSnackBar(resp.message, "Đóng");
                 }
