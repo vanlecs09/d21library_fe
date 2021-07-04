@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{data.title}}</h2>
+<mat-dialog-content class="mat-typography">
+    <label>{{data.content}}</label>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-raised-button class="btn btn-primary pull-right" cdkFocusInitial
+    (click)="submit()">Ok</button>
+    <button mat-button mat-raised-button class="btn btn-secondary pull-right" (click)="cancel()">Hủy</button>
+  
+</mat-dialog-actions>

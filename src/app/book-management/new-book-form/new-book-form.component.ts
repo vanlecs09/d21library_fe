@@ -44,17 +44,22 @@ export class NewBookFormComponent implements OnInit {
             return;
         }
 
-        if (!this.data || !this.data.isbn) {
-            this.openSnackBar("Vui lòng không để trống mã isbn", "Đóng");
-            return;
-        }
 
         if (!this.data || !this.data.authorName) {
             this.openSnackBar("Vui lòng nhập tên tác giả", "Đóng");
             return;
         }
 
-        this.data.isbn = this.data.isbn.split("-").join('');
+        if(!this.data || !this.data.genre) {
+            this.openSnackBar("Vui lòng nhập the loai sach", "Đóng");
+            return;
+        }
+
+
+        if (!!this.data.isbn) {
+            this.data.isbn = this.data.isbn.split("-").join('');
+        }
+
 
         let bookDTO = new BookDTO(this.data);
         this.dialogRef.close(bookDTO);
@@ -78,9 +83,12 @@ export class NewBookFormComponent implements OnInit {
     }
 
     onBookUpdated() {
-        if (!this.data.bookId) {
-            this.data.bookId = "";
-        }
+        if (!this.data.isbn) this.data.isbn = "";
+        if (!this.data.authorName) this.data.authorName = "";
+        if (!this.data.shelf) this.data.shelf = "";
+        if (!this.data.title) this.data.title = "";
+
+        console.log(this.data);
 
         this.data.isbn = this.data.isbn.split("-").join('');
     }

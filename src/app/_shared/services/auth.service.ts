@@ -7,6 +7,7 @@ import { ServiceLoginResponse } from './service-login-response';
 import { switchMap } from 'rxjs/operators';
 import * as moment from 'moment';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,8 @@ import { CookieService } from 'ngx-cookie-service';
 export class AuthService extends RestApiServiceBase {
     constructor(
         private http: HttpClient,
-        private cookieService: CookieService) {
+        private cookieService: CookieService,
+        private _router: Router) {
         super(http);
     }
 
@@ -34,7 +36,12 @@ export class AuthService extends RestApiServiceBase {
                     return of(resp);
                 }));
         return req2;
+    }
 
+    public signOut() {
+        this.cookieService.set('token', "");
+        this.cookieService.set("expires_at", "");
+        this._router.navigate(['/login']);
     }
 
     public isAuthenticated() {
@@ -44,6 +51,7 @@ export class AuthService extends RestApiServiceBase {
     getExpiration() {
         if (!this.cookieService.check("expires_at")) return moment();
         const expiration = this.cookieService.get("expires_at");
+        if(expiration == "") return moment.now();
         const expiresAt = JSON.parse(expiration);
         return moment(expiresAt);
     }

@@ -17,6 +17,8 @@ import { BookPaginator } from 'app/_shared/models/book-paginator.model';
 // import { BookFetch } from 'app/_shared/models/book-fetch.model';
 import { BookFetchDto } from 'app/_shared/dtos/bookFetch.dto';
 import { PageEvent } from '@angular/material/paginator';
+import { DialogConfirmComponent } from 'app/components/dialog-confirm/dialog-confirm/dialog-confirm.component';
+import { DialogConfirm } from 'app/_shared/models/dialog-confirm.model';
 
 @Component({
     selector: 'app-book-management',
@@ -110,16 +112,31 @@ export class BookManagementComponent implements OnInit {
 
     onDelete(bookDto: BookDTO) {
         const self = this;
-        this.bookApiService.DeleteBook(bookDto.isbn.toString())
-            .subscribe((resp: ServiceResponseWithoutDataBase) => {
-                console.log(resp.resultCode);
-                if (resp.resultCode == 1) {
-                    self.bookApiService.GetAllBookGenres().subscribe();
-                    this.openSnackBar(resp.message, "Đóng");
-                } else {
-                    this.openSnackBar(resp.message, "Đóng");
-                }
-            });
+        var dialogConfirm = new DialogConfirm();
+        dialogConfirm.title = "Xác nhận";
+        dialogConfirm.content = "Bạn có chắc muốn xóa sách ra khỏi thư viện không";
+        const dialogRef = this.dialog.open(DialogConfirmComponent, {
+            disableClose: true,
+            autoFocus: true,
+            data: dialogConfirm
+        });
+        dialogRef.afterClosed()
+            .subscribe(async result => {
+                if (!result) return;
+                console.log(result);
+                self.bookApiService.DeleteBook(bookDto.bookId.toString())
+                    .subscribe((resp: ServiceResponseWithoutDataBase) => {
+                        console.log(resp.resultCode);
+                        if (resp.resultCode == 1) {
+                            self.bookApiService.GetAllBookGenres().subscribe();
+                            this.openSnackBar(resp.message, "Đóng");
+                        } else {
+                            this.openSnackBar(resp.message, "Đóng");
+                        }
+                    });
+            })
+
+
     }
 
     onDetail(bookDTO: BookDTO) {
@@ -141,7 +158,6 @@ export class BookManagementComponent implements OnInit {
     }
 
     private fetchBooks() {
-        console.log("fetch boook");
         let bookFetch = new BookFetchDto();
         bookFetch.itemPerPage = this.bookPanigator.pageSize;
         bookFetch.pageNumber = this.bookPanigator.pageIndex + 1;

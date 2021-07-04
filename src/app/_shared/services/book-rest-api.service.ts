@@ -57,10 +57,10 @@ export class BookRestApiService extends RestApiServiceBase {
         })
     }
 
-    public DeleteBook(bookISBN: string): Observable<ServiceResponseWithoutDataBase> {
+    public DeleteBook(bookId: string): Observable<ServiceResponseWithoutDataBase> {
         let url = this.hostUrl + "Books/Remove";
         const body = new HttpParams()
-            .set('bookISBN', bookISBN)
+            .set('bookId', bookId)
 
         return this.http.delete<ServiceResponseWithoutDataBase>(url, {
             params: body,

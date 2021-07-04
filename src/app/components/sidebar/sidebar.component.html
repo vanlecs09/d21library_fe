@@ -46,6 +46,8 @@
                 </a>
             </li>
         </ul>
+        <button mat-button mat-raised-button class="btn btn-primary pull-right" cdkFocusInitial
+            (click)="submit()">Ok</button>
     </div>
     <ul class="nav">
         <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
@@ -54,5 +56,8 @@
                 <p>{{menuItem.title}}</p>
             </a>
         </li>
+        <button mat-button mat-raised-button class="btn btn-primary pull-right" cdkFocusInitial
+        (click)="signOut()">Sign Out</button>
     </ul>
+
 </div>
