@@ -12,52 +12,43 @@ import { MemberRestApiService } from 'app/_shared/services/member-rest-api-servi
 })
 export class MemberNewFormComponent implements OnInit {
 
-    constructor(public dialogRef: MatDialogRef<MemberNewFormComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: MemberDTO,
-        private snackBar: MatSnackBar,
-        private bookApiService: MemberRestApiService
-    ) {}
+  constructor(public dialogRef: MatDialogRef<MemberNewFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: MemberDTO,
+    private snackBar: MatSnackBar,
+  ) { }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
+  }
+
+  cancel() {
+    this.dialogRef.close();
+  }
+
+
+  submit() {
+    console.log(this.data);
+    if (!this.data || !this.data.name) {
+      this.openSnackBar("Vui lòng nhập tên member", "Đóng");
+      return;
     }
 
-    cancel() {
-        this.dialogRef.close();
+    if (!this.data || !this.data.telePhoneNumber || !this.data.email) {
+      this.openSnackBar("Vui lòng không để trống số điện thoại hoac Email", "Đóng");
+      return;
     }
 
-
-    submit() {
-        console.log(this.data);
-        if (!this.data || !this.data.name) {
-            this.openSnackBar("Vui lòng nhập tên member", "Đóng");
-            return;
-        }
-
-        if (!this.data || !this.data.telePhoneNumber) {
-            this.openSnackBar("Vui lòng không để trống số điện thoại", "Đóng");
-            return;
-        }
-
-        if (!this.data || !this.data.email) {
-            this.openSnackBar("Vui lòng nhập email", "Đóng");
-            return;
-        }
-     
-        // this.data.isbn = this.data.isbn.split("-").join('');
-
-        // let bookDTO = new BookDTO(this.data);
-        this.dialogRef.close(this.data);
-    }
+    this.dialogRef.close(this.data);
+  }
 
 
-    openSnackBar(message: string, action: string) {
-        this.snackBar.open(message, action, {
-            duration: 10000,
-        });
-    }
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 10000,
+    });
+  }
 
-    onMemberUpdate() {
-      
-    }
+  onMemberUpdate() {
+
+  }
 
 }

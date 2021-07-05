@@ -8,9 +8,9 @@ describe('MemberUpdateFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MemberUpdateFormComponent ]
+      declarations: [MemberUpdateFormComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

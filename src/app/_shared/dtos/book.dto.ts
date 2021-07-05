@@ -11,7 +11,7 @@ export class BookDTO {
     public authors: AuthorDTO[] = [];
 
     constructor(book: Book) {
-        this.bookId = book.bookId;
+        this.bookId = book.id;
         this.shelf = book.shelf;
         this.genres = book.genre.split(" & ").map(name => new BookGenreDTO(name));
         this.isbn = book.isbn;

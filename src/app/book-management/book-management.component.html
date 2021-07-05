@@ -1,28 +1,28 @@
 <div class="wrapper">
-    <div class="sidebar" data-color="danger" data-background-color="white" data-image="./assets/img/sidebar-1.jpg">
-        <app-sidebar></app-sidebar>
-        <div class="sidebar-background" style="background-image: url(./assets/img/sidebar-4.jpg)"></div>
-    </div>
-    <div class="main-panel">
-        <div class="main-content">
-            <div class="container-fluid" ass="col-md-8">
-                <div class="clearfix"></div>
-                <div class="container-fluid">
-                    <app-book-filter (onSearch)="onSearch($event)"></app-book-filter>
-                    <div class="clearfix"></div>
-                    <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon"
-                        (click)="onTouchAddBook()" matTooltip="Thêm thông tin học viên">
-                        <i class="material-icons">person_add</i>
-                        <div class="ripple-container"></div>
-                    </button>
-                    <app-book-list [book-list]="bookDtos" (onDelete)="onDelete($event)" (onDetail)="onDetail($event)">
-                    </app-book-list>
-                    <mat-paginator [length]="bookPanigator.length" [pageSize]="bookPanigator.pageSize"
-                        [pageSizeOptions]="bookPanigator.pageSizeOptions" [pageIndex]="bookPanigator.pageIndex"
-                        (page)="onPageEvent($event)">
-                    </mat-paginator>
-                </div>
-            </div>
+  <div class="sidebar" data-color="danger" data-background-color="white" data-image="./assets/img/sidebar-1.jpg">
+    <app-sidebar></app-sidebar>
+    <div class="sidebar-background" style="background-image: url(./assets/img/sidebar-4.jpg)"></div>
+  </div>
+  <div class="main-panel">
+    <div class="main-content">
+      <div class="container-fluid" ass="col-md-8">
+        <div class="clearfix"></div>
+        <div class="container-fluid">
+          <app-book-filter (onSearch)="onSearch($event)"></app-book-filter>
+          <div class="clearfix"></div>
+          <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon"
+            (click)="onTouchAddBook()" matTooltip="Thêm thông tin học viên">
+            <i class="material-icons">person_add</i>
+            <div class="ripple-container"></div>
+          </button>
+          <app-book-list [book-list]="bookDtos" (onDelete)="onDelete($event)" (onDetail)="onDetail($event)">
+          </app-book-list>
+          <mat-paginator [length]="bookPanigator.length" [pageSize]="bookPanigator.pageSize"
+            [pageSizeOptions]="bookPanigator.pageSizeOptions" [pageIndex]="bookPanigator.pageIndex"
+            (page)="onPageEvent($event)">
+          </mat-paginator>
         </div>
+      </div>
     </div>
+  </div>
 </div>

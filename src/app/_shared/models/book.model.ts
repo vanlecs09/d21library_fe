@@ -1,7 +1,7 @@
 import { BookDTO } from "../dtos/book.dto";
 
 export class Book {
-    public bookId: string = "";
+    public id: string = "";
     public isbn: string = "";
     public title: string = "";
     public genre: string = "";
@@ -9,7 +9,7 @@ export class Book {
     public authorName: string = "";
 
     constructor(bookDto: BookDTO) {
-        this.bookId = bookDto.bookId;
+        this.id = bookDto.bookId;
         this.isbn = bookDto.isbn;
         this.title = bookDto.title;
         bookDto.genres.forEach(genre => this.genre += genre.name + " & ");

@@ -11,34 +11,34 @@ import { Book } from 'app/_shared/models/book.model';
 })
 export class MemberListComponent implements OnInit {
 
-    @Input("member-list")
-    public members: MemberDTO[] = [];
+  @Input("member-list")
+  public members: MemberDTO[] = [];
 
-    @Output()
-    onDelete = new EventEmitter<MemberDTO>();
+  @Output()
+  onDelete = new EventEmitter<MemberDTO>();
 
-    @Output()
-    onDetail = new EventEmitter<MemberDTO>();
+  @Output()
+  onDetail = new EventEmitter<MemberDTO>();
 
-    constructor() { }
+  constructor() { }
 
-    ngOnInit(): void {
-    }
+  ngOnInit(): void {
+  }
 
 
-    ngOnChanges(changes) {
-        // console.log(changes);
-        
-        // this.members = changes['bookList'].currentValue;
-    }
+  ngOnChanges(changes) {
+    // console.log(changes);
 
-    onDeleteClicked(event, memberDto: MemberDTO) {
-        // let bookDTO = new BookDTO(book);
-        this.onDelete.emit(memberDto);
-    }
+    // this.members = changes['bookList'].currentValue;
+  }
 
-    onDetailClicked(event, memberDto: MemberDTO) {
-        // let bookDTO = new BookDTO(book);
-        this.onDetail.emit(memberDto);
-    }
+  onDeleteClicked(event, memberDto: MemberDTO) {
+    // let bookDTO = new BookDTO(book);
+    this.onDelete.emit(memberDto);
+  }
+
+  onDetailClicked(event, memberDto: MemberDTO) {
+    // let bookDTO = new BookDTO(book);
+    this.onDetail.emit(memberDto);
+  }
 }

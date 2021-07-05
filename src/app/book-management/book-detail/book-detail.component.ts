@@ -70,8 +70,8 @@ export class BookDetailComponent implements OnInit {
     }
 
     onBookUpdated() {
-        if (!this.data.bookId) {
-            this.data.bookId = "";
+        if (!this.data.id) {
+            this.data.id = "";
         }
     }
 
