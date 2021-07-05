@@ -16,9 +16,9 @@ export class RestApiServiceBase {
 
   constructor(protected httpClient: HttpClient) {
     // if (!environment.production) {
-    //  this.hostUrl = this.PEC_REMOTE_URL;
+     this.hostUrl = this.PEC_REMOTE_URL;
 
-    this.hostUrl = this.PEC_DEV_URL;
+    // this.hostUrl = this.PEC_DEV_URL;
     // } else {
     //   this.httpClient.get<ServiceResponseBase<string[]>>(
     //     this.PEC_REMOTE_URL + "values"
