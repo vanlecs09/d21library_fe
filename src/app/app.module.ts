@@ -38,7 +38,10 @@ import { MemberListComponent } from './member-management/member-list/member-list
 import { MemberFilterFormComponent } from './member-management/member-filter-form/member-filter-form.component';
 import { MemberNewFormComponent } from './member-management/member-new-form/member-new-form/member-new-form.component';
 import { MemberUpdateFormComponent } from './member-management/member-update-form/member-update-form.component';
-// import { LoginComponent } from './login/login.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { BookBorrowComponent } from './book-management/book-borrow/book-borrow/book-borrow.component';
+import { BorrowManagementComponent } from './borrow-management/borrow-management.component';
+import { BorrowRequestListComponent } from './borrow-management/borrow-request-list/borrow-request-list/borrow-request-list.component';
 
 
 @NgModule({
@@ -56,7 +59,10 @@ import { MemberUpdateFormComponent } from './member-management/member-update-for
     MemberListComponent,
     MemberFilterFormComponent,
     MemberNewFormComponent,
-    MemberUpdateFormComponent
+    MemberUpdateFormComponent,
+    BookBorrowComponent,
+    BorrowManagementComponent,
+    BorrowRequestListComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +82,8 @@ import { MemberUpdateFormComponent } from './member-management/member-update-for
     ComponentsModule,
     NgxSpinnerModule,
     MatPaginatorModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTabsModule
   ],
   providers: [AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],

@@ -18,14 +18,17 @@ export class BookListComponent implements OnInit {
   @Output()
   onDetail = new EventEmitter<BookDTO>();
 
-  constructor() { }
+  @Output()
+  onBorrow = new EventEmitter<Book>();
+
+  constructor() { 
+  }
 
   ngOnInit(): void {
   }
 
 
   ngOnChanges(changes) {
-    console.log(changes);
     this.bookList = changes['bookList'].currentValue;
   }
 
@@ -37,5 +40,9 @@ export class BookListComponent implements OnInit {
   onDetailClicked(event, book: Book) {
     let bookDTO = new BookDTO(book);
     this.onDetail.emit(bookDTO);
+  }
+
+  onBorrowClicked(event, book: Book) {
+    this.onBorrow.emit(book);
   }
 }

@@ -51,9 +51,7 @@ export class AuthService extends RestApiServiceBase {
   getExpiration() {
     if (!this.cookieService.check("expires_at")) return moment();
     const expiration = this.cookieService.get("expires_at");
-    console.log("getExpiration");
     if (expiration == "") return moment().subtract(1, "day");
-    console.log("here");
     const expiresAt = JSON.parse(expiration);
     return moment(expiresAt);
   }

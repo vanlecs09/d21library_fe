@@ -1,7 +1,18 @@
 <div class="card card-plain">
+  <tr>
+    <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon" (click)="onBorrow()"
+      matTooltip="Thêm thông tin học viên">
+      <i class="material-icons">library_add</i>
+      <div class="ripple-container"></div>
+    </button>
+    <button mat-raised-button type="button" class="btn btn-danger pull-left btn-just-icon" (click)="onBorrow()"
+      matTooltip="Thêm thông tin học viên">
+      <i class="material-icons">delete</i>
+      <div class="ripple-container"></div>
+    </button>
+  </tr>
 
   <div class="card-body">
-    <!-- <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="warn"></mat-progress-bar> -->
     <div class="table-responsive">
       <table class="table table-hover">
         <thead class="">
@@ -22,7 +33,7 @@
           </th>
         </thead>
         <tbody>
-          <tr *ngFor="let book of bookList">
+          <tr *ngFor="let book of books">
             <td style="text-align:center">
               {{book.isbn}}
             </td>
@@ -48,12 +59,6 @@
               (click)="onDetailClicked($event, book)" matTooltip="Thêm thông tin học viên">
               <i class="material-icons">
                 info
-              </i>
-            </button>
-            <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon"
-              (click)="onBorrowClicked($event, book)" matTooltip="Mượn sách" [disabled]="book.disabled">
-              <i class="material-icons">
-                add
               </i>
             </button>
           </tr>
