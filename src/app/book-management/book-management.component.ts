@@ -9,7 +9,7 @@ import { ServiceResponseWithoutDataBase } from 'app/_shared/services/service-res
 import { BookSearchForm } from 'app/_shared/models/book-search-form.model';
 import { BookDetailComponent } from './book-detail/book-detail.component';
 import { Book } from 'app/_shared/models/book.model';
-import { BookPaginator } from 'app/_shared/models/book-paginator.model';
+import {  Paginator } from 'app/_shared/models/book-paginator.model';
 import { BookFetchDto } from 'app/_shared/dtos/bookFetch.dto';
 import { PageEvent } from '@angular/material/paginator';
 import { DialogConfirmComponent } from 'app/components/dialog-confirm/dialog-confirm/dialog-confirm.component';
@@ -24,7 +24,7 @@ import { BorrowService } from 'app/_shared/services/borrow.service';
 export class BookManagementComponent implements OnInit, OnDestroy {
   bookDtos: Book[] = [];
   // borrwedBooks: Book[] = [];
-  bookPanigator: BookPaginator = new BookPaginator();
+  bookPanigator: Paginator = new Paginator();
   constructor(
     private bookApiService: BookRestApiService,
     private dialog: MatDialog,
@@ -171,6 +171,7 @@ export class BookManagementComponent implements OnInit, OnDestroy {
     let bookFetch = new BookFetchDto();
     bookFetch.itemPerPage = this.bookPanigator.pageSize;
     bookFetch.pageNumber = this.bookPanigator.pageIndex + 1;
+    console.log(bookFetch);
     this.bookApiService.getAllBook(bookFetch)
       .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
         if (resp.resultCode == 1) {

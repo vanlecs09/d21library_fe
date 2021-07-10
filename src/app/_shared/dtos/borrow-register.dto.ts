@@ -3,4 +3,5 @@ export class RegisterBorrowDTO {
   name: string = "";
   memberID: string = "";
   bookIDs: string[] = [];
+  note: string = "";
 }

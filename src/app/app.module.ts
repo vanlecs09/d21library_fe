@@ -42,6 +42,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { BookBorrowComponent } from './book-management/book-borrow/book-borrow/book-borrow.component';
 import { BorrowManagementComponent } from './borrow-management/borrow-management.component';
 import { BorrowRequestListComponent } from './borrow-management/borrow-request-list/borrow-request-list/borrow-request-list.component';
+import { BorrowNewFormComponent } from './book-management/borrow-new-form/borrow-new-form/borrow-new-form.component';
+import { BorrowFilterFormComponent } from './borrow-management/borrow-filter-form/borrow-filter-form/borrow-filter-form.component';
 
 
 @NgModule({
@@ -62,7 +64,9 @@ import { BorrowRequestListComponent } from './borrow-management/borrow-request-l
     MemberUpdateFormComponent,
     BookBorrowComponent,
     BorrowManagementComponent,
-    BorrowRequestListComponent
+    BorrowRequestListComponent,
+    BorrowNewFormComponent,
+    BorrowFilterFormComponent
   ],
   imports: [
     BrowserModule,

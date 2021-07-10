@@ -8,6 +8,7 @@ import { Borrow } from 'app/_shared/models/borrow.model';
 import { DialogConfirm } from 'app/_shared/models/dialog-confirm.model';
 import { BorrowRequestFetchService } from 'app/_shared/services/borrow-request-fetch.service';
 import { BorrowRestApiService } from 'app/_shared/services/borrow-rest-api.service';
+import { BorrowSearchService } from 'app/_shared/services/borrow-search.service';
 import { ServiceResponseBase } from 'app/_shared/services/service-response-base';
 
 @Component({
@@ -30,6 +31,7 @@ export class BorrowRequestListComponent implements OnInit {
 
   constructor(
     private borrowApiService: BorrowRestApiService,
+    private borrowSearchService: BorrowSearchService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private borrowFetchService: BorrowRequestFetchService
@@ -124,15 +126,7 @@ export class BorrowRequestListComponent implements OnInit {
 
   FetchBorrow() {
     const self = this;
-    this.borrowApiService.GetRequestBorrows().subscribe(
-      (resp: ServiceResponseBase<BorrowDTO[]>) => {
-        if (resp.resultCode == 1) {
-          let borrows = resp.data.map(b => new Borrow(b));
-          self.borrowFetchService.borrowSubject.next(borrows);
-        } else {
-          this.openSnackBar(resp.message, "Đóng");
-        }
-      });
+    self.borrowSearchService.Search();
   }
 
   openSnackBar(message: string, action: string) {

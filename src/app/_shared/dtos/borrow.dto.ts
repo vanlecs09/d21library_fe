@@ -4,6 +4,9 @@ export class BorrowDTO {
   books: BookBorrow[] = [];
   member: MemberBorrow;
   status: string = "";
+  note: string = "";
+  dateBorrow: string = "";
+  dateReturn: string = "";
 }
 
 

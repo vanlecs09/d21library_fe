@@ -6,38 +6,31 @@
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Tất cả các sách">
       <div class="main-panel">
-        <div class="main-content">
-          <div class="container-fluid" ass="col-md-8">
-            <div class="clearfix"></div>
-            <div class="container-fluid">
-              <app-book-filter (onSearch)="onSearch($event)"></app-book-filter>
-              <div class="clearfix"></div>
-              <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon"
-                (click)="onTouchAddBook()" matTooltip="Thêm thông tin học viên">
-                <i class="material-icons">person_add</i>
-                <div class="ripple-container"></div>
-              </button>
-              <app-book-list [book-list]="bookDtos" (onDelete)="onDelete($event)" (onDetail)="onDetail($event)" (onBorrow)="onBorrow($event)">
-              </app-book-list>
-              <mat-paginator [length]="bookPanigator.length" [pageSize]="bookPanigator.pageSize"
-                [pageSizeOptions]="bookPanigator.pageSizeOptions" [pageIndex]="bookPanigator.pageIndex"
-                (page)="onPageEvent($event)">
-              </mat-paginator>
-            </div>
-          </div>
+        <div class="clearfix"></div>
+        <div class="container-fluid">
+          <app-book-filter (onSearch)="onSearch($event)"></app-book-filter>
+          <div class="clearfix"></div>
+          <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon"
+            (click)="onTouchAddBook()" matTooltip="Thêm thông tin học viên">
+            <i class="material-icons">person_add</i>
+            <div class="ripple-container"></div>
+          </button>
+          <app-book-list [book-list]="bookDtos" (onDelete)="onDelete($event)" (onDetail)="onDetail($event)"
+            (onBorrow)="onBorrow($event)">
+          </app-book-list>
+          <mat-paginator [length]="bookPanigator.length" [pageSize]="bookPanigator.pageSize"
+            [pageSizeOptions]="bookPanigator.pageSizeOptions" [pageIndex]="bookPanigator.pageIndex"
+            (page)="onPageEvent($event)">
+          </mat-paginator>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="Mượn">
       <div class="main-panel">
-        <div class="main-content">
-          <div class="container-fluid" ass="col-md-8">
-            <div class="clearfix"></div>
-            <div class="container-fluid">
-              <app-book-borrow [books-borrow]="borrwedBooks">
-              </app-book-borrow>
-            </div>
-          </div>
+        <div class="clearfix"></div>
+        <div class="container-fluid">
+          <app-book-borrow [books-borrow]="borrwedBooks">
+          </app-book-borrow>
         </div>
       </div>
     </mat-tab>

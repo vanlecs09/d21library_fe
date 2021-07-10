@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BorrowOperationDTO } from '../dtos/borrow-operation.dto';
 import { RegisterBorrowDTO } from '../dtos/borrow-register.dto';
 import { BorrowDTO } from '../dtos/borrow.dto';
+import { BorrowSearchForm } from '../models/borrow-search-form.model';
 import { AuthService } from './auth.service';
 import { RestApiServiceBase } from './rest-api-base.service';
 import { ServiceResponseBase } from './service-response-base';
@@ -37,9 +38,19 @@ export class BorrowRestApiService extends RestApiServiceBase {
     });
   }
 
-  public AdminOperation(borrowOperation : BorrowOperationDTO): Observable<ServiceResponseWithoutDataBase> {
+  public AdminOperation(borrowOperation: BorrowOperationDTO): Observable<ServiceResponseWithoutDataBase> {
     let url = this.hostUrl + "Borrows/AdminOperate";
     return this.http.post<ServiceResponseWithoutDataBase>(url, borrowOperation, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', 'Bearer ' + this.authenService.getToken())
+    });
+  }
+
+  public Search(borrowSearchForm: BorrowSearchForm): Observable<ServiceResponseBase<BorrowDTO[]>> {
+    console.log(borrowSearchForm);
+    let url = this.hostUrl + "Borrows/Search";
+    return this.http.post<ServiceResponseBase<BorrowDTO[]>>(url, borrowSearchForm, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', 'Bearer ' + this.authenService.getToken())

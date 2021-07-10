@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService extends RestApiServiceBase {
+
+  private roles: string[] = [];
+
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
@@ -31,6 +34,7 @@ export class AuthService extends RestApiServiceBase {
     let req2 = request.
       pipe(
         switchMap((resp) => {
+          self.roles = resp.userRoles;
           self.cookieService.set('token', resp.token);
           self.cookieService.set("expires_at", JSON.stringify(resp.expiration.valueOf()));
           return of(resp);
@@ -54,6 +58,14 @@ export class AuthService extends RestApiServiceBase {
     if (expiration == "") return moment().subtract(1, "day");
     const expiresAt = JSON.parse(expiration);
     return moment(expiresAt);
+  }
+
+  isAdmin() {
+    return this.roles.filter(r => r == "Admin").length > 0;
+  }
+
+  isMember() {
+    return this.roles.filter(r => r == "Member").length > 0;
   }
 
   public getToken(): string {

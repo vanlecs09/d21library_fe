@@ -1,5 +1,6 @@
 export class ServiceLoginResponse {
   public status: number = 0;
   public token: string = "";
-  public expiration: string = ""
+  public expiration: string = "";
+  public userRoles: string[] = [];
 }

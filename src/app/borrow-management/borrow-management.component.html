@@ -3,12 +3,14 @@
     <app-sidebar></app-sidebar>
     <div class="sidebar-background" style="background-image: url(./assets/img/sidebar-4.jpg)"></div>
   </div>
-
   <div class="main-panel">
-    <div class="main-content">
-      <div class="container-fluid" ass="col-md-8">
-        <app-borrow-request-list></app-borrow-request-list>
-      </div>
+    <div class="clearfix"></div>
+    <div class="container-fluid">
+      <app-borrow-filter-form></app-borrow-filter-form>
+      <app-borrow-request-list></app-borrow-request-list>
+      <mat-paginator [length]="panigator.length" [pageSize]="panigator.pageSize"
+        [pageSizeOptions]="panigator.pageSizeOptions" [pageIndex]="panigator.pageIndex" (page)="onPageEvent($event)">
+      </mat-paginator>
     </div>
   </div>
 </div>

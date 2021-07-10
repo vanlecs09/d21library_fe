@@ -6,19 +6,24 @@
           <th style="width: 15%;text-align:center">
             Mã Mượn
           </th>
-          <th style="width: 30%; text-align:center">
+          <th style="width: 20%; text-align:center">
             Tên thành viên
           </th>
-          <th style="width: 30%; text-align:center">
+          <th style="width: 20%; text-align:center">
             Sách
+          </th>
+          <th style="width: 30%; text-align:center">
+            Thời điểm cho mượn
           </th>
           <th style="width: auto; text-align:center">
             Trạng thái
           </th>
         </thead>
         <tbody>
-          <tr *ngFor="let borrow of borrows">
-            <td style="text-align:center">
+          <tr *ngFor="let borrow of borrows"
+            [ngStyle]="borrow.status == 'new' ? {'background-color': '#D5F5E3'} : 
+            (borrow.status == 'approved' ? {'background-color': '#F6DDCC'} : {'background-color': '#E5E8E8'})">
+            <td style=" text-align:center">
               {{borrow.id}}
             </td>
             <td style="text-align:center">
@@ -26,6 +31,9 @@
             </td>
             <td style="text-align:center;white-space: pre-line">
               {{borrow.bookTitles}}
+            </td>
+            <td style="text-align:center">
+              {{borrow.dateBorrow.toLocaleString()}}
             </td>
             <td style="text-align:center">
               {{borrow.status}}

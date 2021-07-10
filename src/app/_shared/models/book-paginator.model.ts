@@ -1,4 +1,4 @@
-export class BookPaginator {
+export class Paginator {
     length = 10000;
     pageSize = 10;
     pageIndex = 0;
