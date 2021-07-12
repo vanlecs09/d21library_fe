@@ -31,10 +31,10 @@ export class SidebarComponent implements OnInit {
   constructor(private autheService: AuthService) { }
 
   ngOnInit() {
-    // if (this.autheService.isAdmin())
+    if (this.autheService.isAdmin())
       this.menuItems = ROUTES.filter(menuItem => menuItem);
-    // else
-    //   this.menuItems = MEMBERROUTES.filter(menuItem => menuItem);
+    else
+      this.menuItems = MEMBERROUTES.filter(menuItem => menuItem);
   }
 
   isMobileMenu() {

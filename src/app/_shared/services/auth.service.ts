@@ -34,7 +34,9 @@ export class AuthService extends RestApiServiceBase {
     let req2 = request.
       pipe(
         switchMap((resp) => {
-          self.roles = resp.userRoles;
+          // self.roles = resp.userRoles;
+          self.cookieService.set('roles', JSON.stringify(resp.userRoles));
+          console.log(JSON.stringify(resp.userRoles));
           self.cookieService.set('token', resp.token);
           self.cookieService.set("expires_at", JSON.stringify(resp.expiration.valueOf()));
           return of(resp);
@@ -43,6 +45,7 @@ export class AuthService extends RestApiServiceBase {
   }
 
   public signOut() {
+    this.cookieService.set('roles', JSON.stringify([]));
     this.cookieService.set('token', "");
     this.cookieService.set("expires_at", "");
     this._router.navigate(['/login']);
@@ -61,11 +64,17 @@ export class AuthService extends RestApiServiceBase {
   }
 
   isAdmin() {
-    return this.roles.filter(r => r == "Admin").length > 0;
+    let roles = JSON.parse(this.cookieService.get('roles'));  
+    console.log("is admind "); 
+    console.log(roles);
+    if(!roles) return false;
+    return roles.filter(r => r == "Admin").length > 0;
   }
 
   isMember() {
-    return this.roles.filter(r => r == "Member").length > 0;
+    let roles = JSON.parse(this.cookieService.get('roles'));  
+    if(!roles) return false;
+    return roles.filter(r => r == "Member").length > 0;
   }
 
   public getToken(): string {

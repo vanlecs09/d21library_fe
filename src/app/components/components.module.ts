@@ -9,6 +9,7 @@ import { MyLoaderComponent } from './my-loader/my-loader.component';
 import { ChipInputComponent } from './chip-input/chip-input.component';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm/dialog-confirm.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     NavbarComponent,
     SidebarComponent,
     DialogConfirmComponent,
+    PagenotfoundComponent,
     // ChipInputComponent,
     // MyLoaderComponent
   ],
