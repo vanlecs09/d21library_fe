@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { BookGenre } from 'app/_shared/models/book-genre';
 import { BookSearchForm } from 'app/_shared/models/book-search-form.model';
 import { BookRestApiService } from 'app/_shared/services/book-rest-api.service';
+import { BookSearchService } from 'app/_shared/services/book-search.service';
 
 @Component({
   selector: 'app-book-filter',
@@ -11,10 +12,11 @@ import { BookRestApiService } from 'app/_shared/services/book-rest-api.service';
 })
 export class BookFilterComponent implements OnInit {
   bookGenres: BookGenre[] = [];
-  @Output()
-  onSearch = new EventEmitter<BookSearchForm>();
+  // @Output()
+  // onSearch = new EventEmitter<BookSearchForm>();
   constructor(
-    private bookApiService: BookRestApiService
+    private bookApiService: BookRestApiService,
+    private bookSearchService: BookSearchService
   ) {
     this.bookApiService.GetAllBookGenres().subscribe(
       () => {
@@ -23,23 +25,18 @@ export class BookFilterComponent implements OnInit {
     )
   }
 
-  bookSearchForm: BookSearchForm = {
-    bookName: '',
-    bookISBN: '',
-    authorName: '',
-    bookGenres: []
-  };
+  bookSearchForm: BookSearchForm = new BookSearchForm();
 
 
   ngOnInit(): void {
   }
 
   onSearchClicked() {
-    this.onSearch.emit(this.bookSearchForm);
+    // this.onSearch.emit(this.bookSearchForm);
+    this.bookSearchService.SearchByFilter(this.bookSearchForm);
   }
 
   onSelectGenre(bookGenres: BookGenre[]) {
     this.bookSearchForm.bookGenres = bookGenres.map(g => g.name);
-    console.log(this.bookSearchForm);
   }
 }

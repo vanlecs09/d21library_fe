@@ -15,6 +15,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { DialogConfirmComponent } from 'app/components/dialog-confirm/dialog-confirm/dialog-confirm.component';
 import { DialogConfirm } from 'app/_shared/models/dialog-confirm.model';
 import { BorrowService } from 'app/_shared/services/borrow.service';
+import { BookSearchService } from 'app/_shared/services/book-search.service';
 
 @Component({
   selector: 'app-book-management',
@@ -27,13 +28,19 @@ export class BookManagementComponent implements OnInit, OnDestroy {
   bookPanigator: Paginator = new Paginator();
   constructor(
     private bookApiService: BookRestApiService,
+    private bookSearchService: BookSearchService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private borrowService: BorrowService
   ) { 
     const self = this;
-    this.borrowService.books.subscribe((books: Book[]) => {
+    this.borrowService.booksBorrowSubject.subscribe((books: Book[]) => {
       self.bookDtos.forEach(book => book.disabled = books.filter(borrowBook => borrowBook.id == book.id).length > 0 || book.quantity == 0);
+    });
+    self.bookSearchService.booksSubject.subscribe((books: Book[]) => {
+      self.bookDtos = books;
+      let borrowedBooks = self.borrowService.GetBooks();
+      self.bookDtos.forEach(book => book.disabled = borrowedBooks.filter(borrowBook => borrowBook.id == book.id).length > 0 || book.quantity == 0);
     });
   }
 
@@ -107,19 +114,6 @@ export class BookManagementComponent implements OnInit, OnDestroy {
 
   }
 
-  onSearch(bookSearchForm: BookSearchForm) {
-    this.bookApiService.SearchBook(bookSearchForm)
-      .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
-        if (resp.resultCode == 1) {
-          this.bookDtos = resp.data.map(bookDto => new Book(bookDto));
-          let borrowedBooks = this.borrowService.GetBooks();
-          this.bookDtos.forEach(book => book.disabled = borrowedBooks.filter(borrowBook => borrowBook.id == book.id).length > 0 || book.quantity == 0);
-        } else {
-          this.openSnackBar(resp.message, "Đóng");
-        }
-      });
-  }
-
   onDelete(bookDto: BookDTO) {
     const self = this;
     var dialogConfirm = new DialogConfirm();
@@ -171,16 +165,6 @@ export class BookManagementComponent implements OnInit, OnDestroy {
     let bookFetch = new BookFetchDto();
     bookFetch.itemPerPage = this.bookPanigator.pageSize;
     bookFetch.pageNumber = this.bookPanigator.pageIndex + 1;
-    console.log(bookFetch);
-    this.bookApiService.getAllBook(bookFetch)
-      .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
-        if (resp.resultCode == 1) {
-          this.bookDtos = resp.data.map(bookDto => new Book(bookDto));
-          let borrowedBooks = this.borrowService.GetBooks();
-          this.bookDtos.forEach(book => book.disabled = borrowedBooks.filter(borrowBook => borrowBook.id == book.id).length > 0 || book.quantity == 0);
-        } else {
-          this.openSnackBar(resp.message, "Đóng");
-        }
-      });
+    this.bookSearchService.SearchByPage(this.bookPanigator);
   }
 }

@@ -22,7 +22,7 @@ export class BookBorrowComponent implements OnInit {
     private borrowApiService: BorrowRestApiService,
     private snackBar: MatSnackBar
   ) {
-    this.borrowService.books.subscribe((books: Book[]) => {
+    this.borrowService.booksBorrowSubject.subscribe((books: Book[]) => {
       this.books = books
     });
   }

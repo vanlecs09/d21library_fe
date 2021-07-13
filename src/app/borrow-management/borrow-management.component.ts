@@ -41,15 +41,6 @@ export class BorrowManagementComponent implements OnInit {
   FetchBorrow() {
     const self = this;
     this.borrowSearchService.SearchByPage(this.panigator);
-    // this.borrowApiService.GetRequestBorrows().subscribe(
-    //   (resp: ServiceResponseBase<BorrowDTO[]>) => {
-    //     if (resp.resultCode == 1) {
-    //       let borrows = resp.data.map(b => new Borrow(b));
-    //       self.borrowFetchService.borrowSubject.next(borrows);
-    //     } else {
-    //       this.openSnackBar(resp.message, "Đóng");
-    //     }
-    //   });
   }
 
   onPageEvent(event: PageEvent) {

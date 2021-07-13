@@ -8,7 +8,7 @@ import { Book } from '../models/book.model';
 export class BorrowService {
   // private currentBorrow: Borrow = new Borrow();
   private _books: Book[] = [];
-  public books = new BehaviorSubject<Book[]>([]);
+  public booksBorrowSubject = new BehaviorSubject<Book[]>([]);
   constructor() { }
 
   public CreateBorrow() {
@@ -17,17 +17,17 @@ export class BorrowService {
 
   public AddBook(book: Book) {
     this._books.push(book);
-    this.books.next(this._books);
+    this.booksBorrowSubject.next(this._books);
   }
 
   public Reset() {
     this._books = [];
-    this.books.next(this._books);
+    this.booksBorrowSubject.next(this._books);
   }
 
   public Remove(book: Book) {
     this._books = this._books.filter(b => b.id != book.id);
-    this.books.next(this._books);
+    this.booksBorrowSubject.next(this._books);
   }
 
   public GetBooks() {

@@ -1,70 +1,67 @@
 <div class="card card-plain">
 
-  <div class="card-body">
-    <!-- <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="warn"></mat-progress-bar> -->
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead class="">
-          <th style="width: 15%;text-align:center">
-            Mã ISBN
-          </th>
-          <th style="width: auto; text-align:center">
-            Tên Sách
-          </th>
-          <th style="width: 30%; text-align:center">
-            Tên tác giả
-          </th>
-          <th style="width: 10%; text-align:center">
-            Thể loại
-          </th>
-          <th style="width: 10%; text-align:center">
-            Số lượng còn lại
-          </th>
-          <th style="width: 10%; text-align:center">
-            Tên kệ
-          </th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let book of bookList">
-            <td style="text-align:center">
-              {{book.isbn}}
-            </td>
-            <td style="text-align:center">
-              {{book.title}}
-            </td>
-            <td style="text-align:center">
-              {{book.authorName}}
-            </td>
-            <td style="text-align:center">
-              {{book.genre}}
-            </td>
-            <td style="text-align:center">
-              {{book.quantity}}
-            </td>
-            <td style="text-align:center">
-              {{book.shelf}}
-            </td>
-            <button mat-raised-button type="button" class="btn btn-danger pull-left btn-just-icon" color="warn"
-              (click)="onDeleteClicked($event, book)" matTooltip="Thêm thông tin học viên">
+    <div class="card-body">
+        <!-- <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="warn"></mat-progress-bar> -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="">
+                    <th style="width: 10%;text-align:center">
+                        Mã ISBN
+                    </th>
+                    <th style="width: auto; text-align:center">
+                        Tên Sách
+                    </th>
+                    <th style="width: 20%; text-align:center">
+                        Tên tác giả
+                    </th>
+                    <th style="width: 10%; text-align:center">
+                        Thể loại
+                    </th>
+                    <th style="width: 10%; text-align:center">
+                        Số lượng còn lại
+                    </th>
+                    <th style="width: 10%; text-align:center">
+                        Tên kệ
+                    </th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let book of bookList">
+                        <td style="text-align:center">
+                            {{book.isbn}}
+                        </td>
+                        <td style="text-align:center">
+                            {{book.title}}
+                        </td>
+                        <td style="text-align:center">
+                            {{book.authorName}}
+                        </td>
+                        <td style="text-align:center">
+                            {{book.genre}}
+                        </td>
+                        <td style="text-align:center">
+                            {{book.quantity}}
+                        </td>
+                        <td style="text-align:center">
+                            {{book.shelf}}
+                        </td>
+                        <button mat-raised-button type="button" class="btn btn-danger pull-left btn-just-icon" color="warn" (click)="onDeleteClicked($event, book)" matTooltip="Thêm thông tin học viên">
               <i class="material-icons">
                 delete
               </i>
             </button>
-            <button mat-raised-button type="button" class="btn btn-info pull-left btn-just-icon" color="primary"
-              (click)="onDetailClicked($event, book)" matTooltip="Thêm thông tin học viên">
+                        <button mat-raised-button type="button" class="btn btn-info pull-left btn-just-icon" color="primary" (click)="onDetailClicked($event, book)" matTooltip="Thêm thông tin học viên">
               <i class="material-icons">
                 info
               </i>
             </button>
-            <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon"
-              (click)="onBorrowClicked($event, book)" matTooltip="Mượn sách" [disabled]="book.disabled">
+                        <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon" (click)="onBorrowClicked($event, book)" matTooltip="Mượn sách" [disabled]="book.disabled">
               <i class="material-icons">
                 add
               </i>
             </button>
-          </tr>
-        </tbody>
-      </table>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 </div>
