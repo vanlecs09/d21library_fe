@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <div class="sidebar" data-color="danger" data-background-color="white" data-image="./assets/img/sidebar-1.jpg">
+    <app-sidebar></app-sidebar>
+    <div class="sidebar-background" style="background-image: url(./assets/img/sidebar-4.jpg)"></div>
+  </div>
+  <div class="main-panel">
+    <div class="clearfix"></div>
+    <div class="container-fluid">
+      <app-borrow-filter-form></app-borrow-filter-form>
+      <app-borrow-request-list></app-borrow-request-list>
+      <mat-paginator [length]="panigator.length" [pageSize]="panigator.pageSize"
+        [pageSizeOptions]="panigator.pageSizeOptions" [pageIndex]="panigator.pageIndex" (page)="onPageEvent($event)">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

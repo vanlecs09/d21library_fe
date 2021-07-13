@@ -5,21 +5,32 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { MyLoaderComponent } from './my-loader/my-loader.component';
+import { ChipInputComponent } from './chip-input/chip-input.component';
+import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm/dialog-confirm.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    MatDialogModule
   ],
   declarations: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    DialogConfirmComponent,
+    PagenotfoundComponent,
+    // ChipInputComponent,
+    // MyLoaderComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    DialogConfirmComponent
   ]
 })
 export class ComponentsModule { }

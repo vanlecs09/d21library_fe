@@ -1,38 +1,34 @@
 <div class="wrapper">
-  <!-- <div class="sidebar" data-color="danger" data-background-color="white" data-image="./assets/img/sidebar-1.jpg">
-      <app-sidebar></app-sidebar>
-      <div class="sidebar-background" style="background-image: url(./assets/img/sidebar-4.jpg)"></div>
+    <div class="sidebar" data-color="danger" data-background-color="white" data-image="./assets/img/sidebar-1.jpg">
+        <app-sidebar></app-sidebar>
+        <div class="sidebar-background" style="background-image: url(./assets/img/sidebar-4.jpg)"></div>
     </div>
-    <div class="main-panel">
-      <app-navbar></app-navbar>
-      <div class="main-content">
-        <div class="container-fluid">ass="col-md-8">
-              <app-student-filter-form (onSearch)="onSearch($event)" (onAddStudentRequest)="onAddStudentRequest()"
-                [is-loading]="isLoading"></app-student-filter-form>
-              <div class="clearfix"></div> -->
-  <div class="container-fluid">
-    <app-book-filter (onSearch)="onSearch($event)" (onAddStudentRequest)="onAddStudentRequest()"
-      ></app-book-filter>
-    <div class="clearfix"></div>
-    <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon" (click)="onTouchAddBook()"
-      matTooltip="Thêm thông tin học viên">
-      <i class="material-icons">person_add</i>
-      <div class="ripple-container"></div>
-    </button>
-    <app-book-list [book-list]="bookDtos" (onDelete)="onDelete($event)">
-    </app-book-list>
-  </div>
-  <!-- </div>
-            <div class="col-md-4">
-              <app-student-details *ngIf="!!selectedStu" [student]="selectedStu"></app-student-details>
-              <app-student-payment-history *ngIf="!!selectedStu" [payment-list]="paymentDTOs">
-              </app-student-payment-history>
-              <!-- <app-parent-info></app-parent-info> -->
-  <!-- </div> -->
-  <!-- </div> -->
-  <!-- </div> -->
-  <!-- <div *ngIf="isMaps('maps')">
-              <app-footer></app-footer>
-          </div> -->
-  <!-- </div> -->
+    <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Tất cả các sách" style="font-size:60px">
+            <div class="main-panel">
+                <div class="clearfix"></div>
+                <div class="container-fluid">
+                    <app-book-filter></app-book-filter>
+                    <div class="clearfix"></div>
+                    <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon" (click)="onTouchAddBook()" matTooltip="Thêm thông tin học viên">
+            <i class="material-icons">library_add</i>
+            <div class="ripple-container"></div>
+          </button>
+                    <app-book-list [book-list]="bookDtos" (onDelete)="onDelete($event)" (onDetail)="onDetail($event)" (onBorrow)="onBorrow($event)">
+                    </app-book-list>
+                    <mat-paginator [length]="bookPanigator.length" [pageSize]="bookPanigator.pageSize" [pageSizeOptions]="bookPanigator.pageSizeOptions" [pageIndex]="bookPanigator.pageIndex" (page)="onPageEvent($event)">
+                    </mat-paginator>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Mượn" style="font-size:60px">
+            <div class="main-panel">
+                <div class="clearfix"></div>
+                <div class="container-fluid">
+                    <app-book-borrow [books-borrow]="borrwedBooks">
+                    </app-book-borrow>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
 </div>

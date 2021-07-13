@@ -13,11 +13,37 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { BookFilterComponent } from './book-management/book-filter/book-filter.component';
 import { BookDetailComponent } from './book-management/book-detail/book-detail.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { ComponentsModule } from './components/components.module';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from './_shared/services/auth.service';
+import { MyLoaderComponent } from './components/my-loader/my-loader.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderInterceptor } from './interceptors/loader-interceptor.service';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ChipInputComponent } from './components/chip-input/chip-input.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MemberManagementComponent } from './member-management/member-management/member-management.component';
+import { MemberListComponent } from './member-management/member-list/member-list/member-list.component';
+import { MemberFilterFormComponent } from './member-management/member-filter-form/member-filter-form.component';
+import { MemberNewFormComponent } from './member-management/member-new-form/member-new-form/member-new-form.component';
+import { MemberUpdateFormComponent } from './member-management/member-update-form/member-update-form.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { BookBorrowComponent } from './book-management/book-borrow/book-borrow/book-borrow.component';
+import { BorrowManagementComponent } from './borrow-management/borrow-management.component';
+import { BorrowRequestListComponent } from './borrow-management/borrow-request-list/borrow-request-list/borrow-request-list.component';
+import { BorrowNewFormComponent } from './book-management/borrow-new-form/borrow-new-form/borrow-new-form.component';
+import { BorrowFilterFormComponent } from './borrow-management/borrow-filter-form/borrow-filter-form/borrow-filter-form.component';
 
 
 @NgModule({
@@ -27,12 +53,27 @@ import { BookDetailComponent } from './book-management/book-detail/book-detail.c
     BookListComponent,
     NewBookFormComponent,
     BookFilterComponent,
-    BookDetailComponent
+    BookDetailComponent,
+    LoginComponent,
+    MyLoaderComponent,
+    ChipInputComponent,
+    MemberManagementComponent,
+    MemberListComponent,
+    MemberFilterFormComponent,
+    MemberNewFormComponent,
+    MemberUpdateFormComponent,
+    BookBorrowComponent,
+    BorrowManagementComponent,
+    BorrowRequestListComponent,
+    BorrowNewFormComponent,
+    BorrowFilterFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule, BrowserAnimationsModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatDialogModule,
     MatFormFieldModule,
     MatOptionModule,
@@ -42,8 +83,14 @@ import { BookDetailComponent } from './book-management/book-detail/book-detail.c
     FormsModule,
     MatSnackBarModule,
     MatInputModule,
+    ComponentsModule,
+    NgxSpinnerModule,
+    MatPaginatorModule,
+    MatChipsModule,
+    MatTabsModule
   ],
-  providers: [],
+  providers: [AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

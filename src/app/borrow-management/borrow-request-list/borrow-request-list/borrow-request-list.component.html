@@ -1,0 +1,65 @@
+<div class="card card-plain">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="">
+          <th style="width: 15%;text-align:center">
+            Mã Mượn
+          </th>
+          <th style="width: 20%; text-align:center">
+            Tên thành viên
+          </th>
+          <th style="width: 20%; text-align:center">
+            Sách
+          </th>
+          <th style="width: 30%; text-align:center">
+            Thời điểm cho mượn
+          </th>
+          <th style="width: auto; text-align:center">
+            Trạng thái
+          </th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let borrow of borrows"
+            [ngStyle]="borrow.status == 'new' ? {'background-color': '#D5F5E3'} : 
+            (borrow.status == 'approved' ? {'background-color': '#F6DDCC'} : {'background-color': '#E5E8E8'})">
+            <td style=" text-align:center">
+              {{borrow.id}}
+            </td>
+            <td style="text-align:center">
+              {{borrow.member.name}}
+            </td>
+            <td style="text-align:center;white-space: pre-line">
+              {{borrow.bookTitles}}
+            </td>
+            <td style="text-align:center">
+              {{borrow.dateBorrow.toLocaleString()}}
+            </td>
+            <td style="text-align:center">
+              {{borrow.status}}
+            </td>
+            <button mat-raised-button type="button" class="btn btn-danger pull-left btn-just-icon" color="warn"
+              (click)="onDenyClicked($event, borrow)" matTooltip="Thêm thông tin học viên"
+              *ngIf="borrow.status == 'new'">
+              <i class="material-icons">
+                close
+              </i>
+            </button>
+            <button mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon"
+              (click)="onApprovedClicked($event, borrow)" matTooltip="Mượn sách" *ngIf="borrow.status == 'new'">
+              <i class="material-icons">
+                done
+              </i>
+            </button>
+            <button mat-raised-button type="button" class="btn btn-primary pull-left btn-just-icon"
+              (click)="onCloseClicked($event, borrow)" matTooltip="Mượn sách" *ngIf="borrow.status == 'approved'">
+              <i class="material-icons">
+                arrow_back
+              </i>
+            </button>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

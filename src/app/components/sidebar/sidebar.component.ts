@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'app/_shared/services/auth.service';
 
 declare const $: any;
 declare interface RouteInfo {
-    path: string;
-    title: string;
-    icon: string;
-    class: string;
+  path: string;
+  title: string;
+  icon: string;
+  class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-    { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' },
-    { path: '/table-list', title: 'Table List',  icon:'content_paste', class: '' },
-    { path: '/typography', title: 'Typography',  icon:'library_books', class: '' },
-    { path: '/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
-    { path: '/maps', title: 'Maps',  icon:'location_on', class: '' },
-    { path: '/notifications', title: 'Notifications',  icon:'notifications', class: '' },
-    { path: '/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
+  { path: '/books', title: 'Books', icon: 'dashboard', class: '' },
+  { path: '/members', title: 'Members', icon: 'person', class: '' },
+  { path: '/borrows', title: 'Borrows', icon: 'book', class: '' },
 ];
+
+
+export const MEMBERROUTES: RouteInfo[] = [
+  { path: '/books', title: 'Books', icon: 'dashboard', class: '' }
+];
+
 
 @Component({
   selector: 'app-sidebar',
@@ -26,15 +28,23 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor() { }
+  constructor(private autheService: AuthService) { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    if (this.autheService.isAdmin())
+      this.menuItems = ROUTES.filter(menuItem => menuItem);
+    else
+      this.menuItems = MEMBERROUTES.filter(menuItem => menuItem);
   }
+
   isMobileMenu() {
-      if ($(window).width() > 991) {
-          return false;
-      }
-      return true;
+    if ($(window).width() > 991) {
+      return false;
+    }
+    return true;
   };
+
+  signOut() {
+    this.autheService.signOut();
+  }
 }

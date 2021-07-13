@@ -1,52 +1,35 @@
 <div class="card">
-    <div class="card-header card-header-primary">
-      <h4 class="card-title">Quản lý sách</h4>
-      <p class="card-category">Điền thông tin để tìm kiếm</p>
+    <div class="card-header" id="card-header">
+        <h4 class="card-title" id="font">Quản lý sách</h4>
+        <p class="card-category" id="font">Điền thông tin để tìm kiếm</p>
     </div>
     <div class="card-body">
-      <form>
-        <div class="row">
-          <div class="col-md-2">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Tên Sách" [(ngModel)]="bookSearchForm.bookName"
-                [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Mã ISBN" [(ngModel)]="bookSearchForm.bookISBN"
-                [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Thể loại" [(ngModel)]="bookSearchForm.bookGenre"
-                [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-          </div>
-          <div class="col-md-3">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Tên tác giả" [(ngModel)]="bookSearchForm.authorName"
-                [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-          </div>
-          <!-- <div class="col-md-3">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Chọn lớp" data-toggle="dropdown" [(ngModel)]="stuSearchForm.stuClsCode"      [ngModelOptions]="{standalone: true}" autocomplete="off">
-              <ul class="dropdown-menu" (click)="onClick($event)">
-                <li *ngFor="let class of availableClasses; let i = index"><a>{{class.code}}</a></li>
-              </ul>
-            </mat-form-field>
-          </div> -->
-        </div>
-        <!-- <button [disabled]="isLoading" mat-raised-button type="button" class="btn btn-success pull-left btn-just-icon"
-          (click)="onAddStudentClicked()" matTooltip="Thêm thông tin học viên" [matTooltipPosition]='"above"'>
-          <i class="material-icons">person_add</i>
-          <div class="ripple-container"></div>
-        </button> -->
-        <button mat-raised-button type="submit" class="btn btn-primary pull-right"
-          (click)="onSearchClicked()">Tìm
-          kiếm</button>
-      </form>
+        <form>
+            <div class="row">
+                <div class="col-md-2">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Tên Sách" [(ngModel)]="bookSearchForm.bookName" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Mã ISBN" [(ngModel)]="bookSearchForm.bookISBN" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Tên tác giả" [(ngModel)]="bookSearchForm.authorName" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <app-chip-input [book-genres]="bookGenres" (onSelectGenre)="onSelectGenre($event)"></app-chip-input>
+                </div>
+            </div>
+            <button mat-raised-button type="submit" class="btn btn-primary pull-right" (click)="onSearchClicked()">Tìm
+        kiếm</button>
+        </form>
     </div>
-  </div>
+</div>

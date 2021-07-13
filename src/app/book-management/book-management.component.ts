@@ -1,41 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BookDTO } from '../_shared/dtos/book.dto';
 import { BookRestApiService } from '../_shared/services/book-rest-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NewBookFormComponent } from './new-book-form/new-book-form.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';;
 import { ServiceResponseBase } from 'app/_shared/services/service-response-base';
 import { ServiceResponseWithoutDataBase } from 'app/_shared/services/service-response-without-data-base';
 import { BookSearchForm } from 'app/_shared/models/book-search-form.model';
+import { BookDetailComponent } from './book-detail/book-detail.component';
+import { Book } from 'app/_shared/models/book.model';
+import {  Paginator } from 'app/_shared/models/book-paginator.model';
+import { BookFetchDto } from 'app/_shared/dtos/bookFetch.dto';
+import { PageEvent } from '@angular/material/paginator';
+import { DialogConfirmComponent } from 'app/components/dialog-confirm/dialog-confirm/dialog-confirm.component';
+import { DialogConfirm } from 'app/_shared/models/dialog-confirm.model';
+import { BorrowService } from 'app/_shared/services/borrow.service';
+import { BookSearchService } from 'app/_shared/services/book-search.service';
 
 @Component({
   selector: 'app-book-management',
   templateUrl: './book-management.component.html',
   styleUrls: ['./book-management.component.styl']
 })
-export class BookManagementComponent implements OnInit {
-  bookDtos: BookDTO[] = [];
-
+export class BookManagementComponent implements OnInit, OnDestroy {
+  bookDtos: Book[] = [];
+  // borrwedBooks: Book[] = [];
+  bookPanigator: Paginator = new Paginator();
   constructor(
     private bookApiService: BookRestApiService,
+    private bookSearchService: BookSearchService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) { }
+    private snackBar: MatSnackBar,
+    private borrowService: BorrowService
+  ) { 
+    const self = this;
+    this.borrowService.booksBorrowSubject.subscribe((books: Book[]) => {
+      self.bookDtos.forEach(book => book.disabled = books.filter(borrowBook => borrowBook.id == book.id).length > 0 || book.quantity == 0);
+    });
+    self.bookSearchService.booksSubject.subscribe((books: Book[]) => {
+      self.bookDtos = books;
+      let borrowedBooks = self.borrowService.GetBooks();
+      self.bookDtos.forEach(book => book.disabled = borrowedBooks.filter(borrowBook => borrowBook.id == book.id).length > 0 || book.quantity == 0);
+    });
+  }
 
   ngOnInit(): void {
-    this.bookApiService.getAllBook()
-      .pipe(
-        catchError(this.handleError<ServiceResponseBase<BookDTO[]>>('getBook', new ServiceResponseBase<BookDTO[]>()))
-      )
-      .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
-        if (resp.resultCode == 1) {
-          this.bookDtos = resp.data;
-        } else {
+    this.bookApiService.GetAllBookGenres().subscribe();
+    this.fetchBooks();
+  }
 
-        }
-      });
+  ngOnDestroy(): void {
+    console.log("on destroy");
+    this.borrowService.Reset();
   }
 
   async onBookSelected(book: BookDTO) {
@@ -53,52 +69,84 @@ export class BookManagementComponent implements OnInit {
       data: {
       }
     });
-
+    const self = this;
     dialogRef.afterClosed()
       .subscribe(async result => {
-        this.bookApiService.AddBook(result)
-          .pipe(
-            catchError(this.handleError<ServiceResponseWithoutDataBase>('getBook', new ServiceResponseWithoutDataBase()))
-          )
+        if (!result) return;
+        self.bookApiService.AddBook(result)
           .subscribe((resp: ServiceResponseWithoutDataBase) => {
-            console.log(resp.resultCode);
             if (resp.resultCode == 1) {
-              this.openSnackBar(resp.message, "Đóng");
+              self.fetchBooks();
+              self.bookApiService.GetAllBookGenres().subscribe();
+              self.openSnackBar(resp.message, "Đóng");
             } else {
-              this.openSnackBar(resp.message, "Đóng");
+              self.openSnackBar(resp.message, "Đóng");
             }
           });
       });
   }
 
-  onSearch(bookSearchForm: BookSearchForm) {
-    this.bookApiService.SearchBook(bookSearchForm)
-      .pipe(
-        catchError(this.handleError<ServiceResponseBase<BookDTO[]>>('searchBook', new ServiceResponseBase<BookDTO[]>()))
-      )
-      .subscribe((resp: ServiceResponseBase<BookDTO[]>) => {
-        if (resp.resultCode == 1) {
-          this.bookDtos = resp.data;
-        } else {
-          this.openSnackBar(resp.message, "Đóng");
-        }
+  openBookDetailDialog(bookDTO: BookDTO) {
+    const dialogRef = this.dialog.open(BookDetailComponent, {
+      disableClose: true,
+      autoFocus: true,
+      data: new Book(bookDTO)
+    });
+    const self = this;
+    dialogRef.afterClosed()
+      .subscribe(async result => {
+        if (!result) return;
+        self.bookApiService.Update(result)
+          .subscribe(
+            (resp: ServiceResponseWithoutDataBase) => {
+              if (resp.resultCode == 1) {
+                self.fetchBooks();
+                self.bookApiService.GetAllBookGenres().subscribe();
+                self.openSnackBar(resp.message, "Đóng");
+              } else {
+                self.openSnackBar(resp.message, "Đóng");
+              }
+            },
+            (error) => {
+              self.openSnackBar(error.message, "Đóng");
+            });
       });
+
   }
 
   onDelete(bookDto: BookDTO) {
-    this.bookApiService.DeleteBook(bookDto.isbn.toString())
-    .pipe(
-      catchError(this.handleError<ServiceResponseWithoutDataBase>('searchBook', new ServiceResponseWithoutDataBase()))
-    )
-    .subscribe((resp: ServiceResponseWithoutDataBase) => {
-      console.log(resp.resultCode);
-      if (resp.resultCode == 1) {
-        this.openSnackBar(resp.message, "Đóng");
-      } else {
-        this.openSnackBar(resp.message, "Đóng");
-      }
+    const self = this;
+    var dialogConfirm = new DialogConfirm();
+    dialogConfirm.title = "Xác nhận";
+    dialogConfirm.content = "Bạn có chắc muốn xóa sách ra khỏi thư viện không";
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {
+      disableClose: true,
+      autoFocus: true,
+      data: dialogConfirm
     });
+    dialogRef.afterClosed()
+      .subscribe(async result => {
+        if (!result) return;
+        self.bookApiService.DeleteBook(bookDto.bookId.toString())
+          .subscribe((resp: ServiceResponseWithoutDataBase) => {
+            if (resp.resultCode == 1) {
+              self.bookApiService.GetAllBookGenres().subscribe();
+              this.openSnackBar(resp.message, "Đóng");
+            } else {
+              this.openSnackBar(resp.message, "Đóng");
+            }
+          });
+      })
   }
+
+  onDetail(bookDTO: BookDTO) {
+    this.openBookDetailDialog(bookDTO);
+  }
+
+  onBorrow(book: Book) {
+    this.borrowService.AddBook(book);
+  }
+
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
@@ -106,17 +154,17 @@ export class BookManagementComponent implements OnInit {
     });
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      this.openSnackBar(error.message, "Đóng");
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+  onPageEvent(event: PageEvent) {
+    this.bookPanigator.length = event.length;
+    this.bookPanigator.pageSize = event.pageSize;
+    this.bookPanigator.pageIndex = event.pageIndex;
+    this.fetchBooks();
+  }
 
-      // TODO: better job of transforming error for user consumption
-      // this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  private fetchBooks() {
+    let bookFetch = new BookFetchDto();
+    bookFetch.itemPerPage = this.bookPanigator.pageSize;
+    bookFetch.pageNumber = this.bookPanigator.pageIndex + 1;
+    this.bookSearchService.SearchByPage(this.bookPanigator);
   }
 }

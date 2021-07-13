@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Mượn Sách</h1>
+<mat-dialog-content class="mat-typography">
+  <form>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Nhan đề" type="text" [(ngModel)]="data.name"
+            [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Ghi chú" type="text" [(ngModel)]="data.note"
+            [ngModelOptions]="{standalone: true}" rows="4"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-raised-button class="btn btn-secondary pull-right" (click)="cancel()">Hủy</button>
+  <button mat-button mat-raised-button class="btn btn-primary pull-right" cdkFocusInitial (click)="submit()">Cập
+    nhật</button>
+</mat-dialog-actions>

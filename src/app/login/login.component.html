@@ -1,0 +1,31 @@
+<div class="card" >
+  <div class="card-header" style="background-color:'#D5D8DC'">
+    <h4 class="card-title">Đăng nhập</h4>
+    <p class="card-category">Nhập tên đăng nhập và mật khẩu</p>
+  </div>
+  <div class="card-body">
+    <form>
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Tên đăng nhập" [(ngModel)]="username" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <input matInput type="password" placeholder="Mật khẩu" [(ngModel)]="password"
+              [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <button [disabled]="isLoading" mat-raised-button type="submit" class="btn" style="background-color:'#ABB2B9'"
+            (click)="onLoginClicked()">Đăng nhập</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

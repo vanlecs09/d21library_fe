@@ -1,0 +1,13 @@
+<mat-form-field class="example-chip-list">
+    <mat-label>Thể loại</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection" selectable multiple>
+        <mat-chip #c="matChip" *ngFor="let bookGenre of bookGenres" [selected]="bookGenre.isSelected" [removable]="removable"
+            (removed)="remove(bookGenre)" (click)="toggleSelection(c,bookGenre)">
+            {{bookGenre.name}}
+            <i class="material-icons" matChipRemove *ngIf="removable">cancel</i>
+        </mat-chip>
+        <input placeholder="Nhập thể loại khác..." [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+</mat-form-field>
